@@ -16,6 +16,9 @@ const BacketComponent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [removeId, setRemoveId] = useState(null);
 
+// const translate=useT
+
+
   const onUpdateQuantity = (id, change) => {
     dispatch(updateQuantity({ id, change }));
   };
