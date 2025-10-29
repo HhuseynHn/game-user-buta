@@ -1,8 +1,10 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next';
 
 const Preference = () => {
+  const { t } = useTranslation();
   return (
-    <div>Preference</div>
+    <div>{t("Preference")}</div>
   )
 }
 

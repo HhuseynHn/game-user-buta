@@ -5,23 +5,23 @@ class CategoryService {
       imagePath: "https://eu-images.contentstack.com/v3/assets/blt740a130ae3c5d529/blta93ef02711882c73/650f02bb7a856685fdfd9ac5/Epic_Header.png?width=1280&auto=webp&quality=80&format=jpg&disable=upscale",
     },
     {
-      id: 1,
+      id: 2,
       imagePath: "https://eu-images.contentstack.com/v3/assets/blt740a130ae3c5d529/blta93ef02711882c73/650f02bb7a856685fdfd9ac5/Epic_Header.png?width=1280&auto=webp&quality=80&format=jpg&disable=upscale",
     },
     {
-      id: 1,
+      id: 3,
       imagePath: "https://eu-images.contentstack.com/v3/assets/blt740a130ae3c5d529/blta93ef02711882c73/650f02bb7a856685fdfd9ac5/Epic_Header.png?width=1280&auto=webp&quality=80&format=jpg&disable=upscale",
     },
     {
-      id: 1,
+      id: 4,
       imagePath: "https://eu-images.contentstack.com/v3/assets/blt740a130ae3c5d529/blta93ef02711882c73/650f02bb7a856685fdfd9ac5/Epic_Header.png?width=1280&auto=webp&quality=80&format=jpg&disable=upscale",
     },
     {
-      id: 1,
+      id: 5,
       imagePath: "https://eu-images.contentstack.com/v3/assets/blt740a130ae3c5d529/blta93ef02711882c73/650f02bb7a856685fdfd9ac5/Epic_Header.png?width=1280&auto=webp&quality=80&format=jpg&disable=upscale",
     },
     {
-      id: 1,
+      id: 6,
       imagePath: "https://eu-images.contentstack.com/v3/assets/blt740a130ae3c5d529/blta93ef02711882c73/650f02bb7a856685fdfd9ac5/Epic_Header.png?width=1280&auto=webp&quality=80&format=jpg&disable=upscale",
     },
   ];

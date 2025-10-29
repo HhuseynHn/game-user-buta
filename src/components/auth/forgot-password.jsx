@@ -5,10 +5,12 @@ import { joiResolver } from "@hookform/resolvers/joi";
 import { Mail, User, AlertCircle } from "lucide-react";
 import { forgotPasswordSchema } from "@/schemas/auth-schema";
 import Link from "next/link";
+import { useTranslation } from "@/hooks/use-translations";
 
 
 const ForgotPassword = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const { t } = useTranslation();
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: joiResolver(forgotPasswordSchema)
@@ -33,32 +35,31 @@ const ForgotPassword = () => {
     <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="bg-gray-900 rounded-2xl border border-gray-800 p-6 md:p-8">
-          
+
           {/* Header */}
           <div className="text-center mb-8">
             <div className="w-16 h-16 bg-gradient-to-r from-red-600 to-red-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <User className="w-8 h-8 text-white" />
             </div>
-            <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">Forgot Password</h1>
-            <p className="text-gray-400">Enter your email to reset your password</p>
+            <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">{t("forgotPassword")}</h1>
+            <p className="text-gray-400">{t("enterEmailToReset")}</p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            
+
             {/* Email Field */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                Email Address
+                {t("emailAddress")}
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
                   type="email"
                   {...register("email")}
-                  className={`w-full bg-gray-800 border ${
-                    errors.email ? "border-red-500" : "border-gray-700"
-                  } rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all`}
-                  placeholder="Enter your email"
+                  className={`w-full bg-gray-800 border ${errors.email ? "border-red-500" : "border-gray-700"
+                    } rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all`}
+                  placeholder={t("enterEmail")}
                 />
               </div>
               {errors.email && (
@@ -78,10 +79,10 @@ const ForgotPassword = () => {
               {isLoading ? (
                 <>
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Sending reset link...
+                  {t("sendingResetLink")}
                 </>
               ) : (
-                "Send Reset Link"
+                t("sendResetLink")
               )}
             </button>
           </form>
@@ -89,12 +90,12 @@ const ForgotPassword = () => {
           {/* Footer */}
           <div className="mt-8 text-center">
             <p className="text-gray-400">
-              Remembered your password?{" "}
+              {t("rememberedPassword")}{" "}
               <Link
                 href={'/login'}
                 className="text-red-400 hover:text-red-300 font-medium transition-colors"
               >
-                Sign In
+                {t("signIn")}
               </Link>
             </p>
           </div>
@@ -103,5 +104,5 @@ const ForgotPassword = () => {
     </div>
   );
 };
- 
+
 export default ForgotPassword;

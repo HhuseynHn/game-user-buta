@@ -14,7 +14,7 @@ html {
 
 body,
 div,
-section,  
+section,
 article,
 main,
 header,
@@ -118,6 +118,8 @@ ol {
 
 li {
   margin-bottom: 0.5rem;
+  text-decoration: none;
+  list-style: none;
 }
 
 blockquote {
@@ -198,29 +200,36 @@ footer {
 }
 
 .scroll-hidden {
-  -ms-overflow-style: none;  /* IE və Edge */
-  scrollbar-width: none;     /* Firefox */
+  -ms-overflow-style: none;
+  /* IE və Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 .scroll-hidden::-webkit-scrollbar {
-  display: none;             /* Chrome, Safari */
+  display: none;
+  /* Chrome, Safari */
 }
 
 
 .custom-scroll::-webkit-scrollbar {
-  width: 6px; /* scroll-un eni */
+  width: 6px;
+  /* scroll-un eni */
 }
 
 .custom-scroll::-webkit-scrollbar-track {
-  background: #1f2937; /* bg-gray-800 kimi */
+  background: #1f2937;
+  /* bg-gray-800 kimi */
   border-radius: 10px;
 }
 
 .custom-scroll::-webkit-scrollbar-thumb {
-  background: #ef4444; /* red-500 */
+  background: #ef4444;
+  /* red-500 */
   border-radius: 10px;
 }
 
 .custom-scroll::-webkit-scrollbar-thumb:hover {
-  background: #dc2626; /* red-600 */
+  background: #dc2626;
+  /* red-600 */
 }

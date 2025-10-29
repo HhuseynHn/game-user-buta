@@ -4,10 +4,11 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCarousel } from "@/hooks/use-carousel";
 import { heroSectionService } from "@/services/hero-section-service";
 import Image from "next/image";
+import { useTranslation } from "react-i18next";
 
 const HeroSection = () => {
   const [heroSections, setHeroSections] = useState([]);
-
+  const { t } = useTranslation();
   useEffect(() => {
     let isMounted = true;
     async function fetchData() {
@@ -39,7 +40,7 @@ const HeroSection = () => {
         <div className="flex items-center justify-center h-full bg-gray-200">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
-            <p className="text-gray-600">Şəkillər yüklənir...</p>
+            <p className="text-gray-600">{t("imagesLoading")}</p>
           </div>
         </div>
       ) : (

@@ -5,11 +5,13 @@ import { joiResolver } from "@hookform/resolvers/joi";
 import { KeyRound, AlertCircle } from "lucide-react";
 import { otpSchema } from "@/schemas/auth-schema";
 import { useOtpInput } from "@/hooks/use-otp-input";
+import { useTranslation } from "@/hooks/use-translations";
 
 const OtpVerification = () => {
+  const { t } = useTranslation()
   const [isLoading, setIsLoading] = useState(false);
 
-   const { register, handleSubmit, setValue, control, formState: { errors } } = useForm({
+  const { register, handleSubmit, setValue, control, formState: { errors } } = useForm({
     resolver: joiResolver(otpSchema),
     defaultValues: { otp: "" },
   });
@@ -37,10 +39,10 @@ const OtpVerification = () => {
               <KeyRound className="w-8 h-8 text-white" />
             </div>
             <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">
-              OTP Verification
+              {t("otpVerification")}
             </h1>
             <p className="text-gray-400">
-              Enter the 6-digit code we sent to your email
+              {t("enterCode")}
             </p>
           </div>
 
@@ -56,9 +58,8 @@ const OtpVerification = () => {
                   value={otpValue[index] || ""}
                   onChange={(e) => handleChange(e, index)}
                   onKeyDown={(e) => handleKeyDown(e, index)}
-                  className={`w-12 h-14 text-center text-xl font-semibold rounded-lg border-2 ${
-                    errors.otp ? "border-red-500" : "border-gray-700"
-                  } bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-red-500 transition-all`}
+                  className={`w-12 h-14 text-center text-xl font-semibold rounded-lg border-2 ${errors.otp ? "border-red-500" : "border-gray-700"
+                    } bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-red-500 transition-all`}
                 />
               ))}
             </div>
@@ -77,10 +78,10 @@ const OtpVerification = () => {
               {isLoading ? (
                 <>
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Verifying...
+                  {t("verifying")}
                 </>
               ) : (
-                "Verify OTP"
+                t("verifyOtp")
               )}
             </button>
           </form>

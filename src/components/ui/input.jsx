@@ -1,9 +1,9 @@
 import React from "react";
 
-export const Input = (props) => {
+export const Input = ({ className = "", ...props }) => {
   return (
     <>
-      <input {...props} className={`${props.className}`} />
+      <input {...props} className={className} />
     </>
   );
 };

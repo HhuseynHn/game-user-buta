@@ -2,6 +2,8 @@
 import Image from "next/image";
 import React, { useRef, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, ShoppingCart, Star, Heart, Sparkles, Users, Clock, Shield, Truck, Eye } from "lucide-react";
+import { useTranslation } from "@/hooks/use-translations";
+
 
 const recommendedProducts = Array.from({ length: 16 }, (_, i) => ({
   id: i + 1,
@@ -25,7 +27,7 @@ const RecommendedProductsCarousel = () => {
   const [scrollLeft, setScrollLeft] = useState(0);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
-
+  const { t } = useTranslation();
   const checkScrollButtons = () => {
     if (carouselRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
@@ -99,11 +101,11 @@ const RecommendedProductsCarousel = () => {
       <div className="flex items-center gap-3 mb-6">
         <div className="flex items-center gap-2">
           <Sparkles className="w-6 h-6 text-purple-500" />
-          <h2 className="text-2xl font-bold text-white">Recommended For You</h2>
+          <h2 className="text-2xl font-bold text-white">{t("recommendedForYou")}</h2>
         </div>
         <div className="flex items-center gap-1 text-purple-400">
           <Sparkles className="w-4 h-4" />
-          <span className="text-sm font-medium">Personalized Picks</span>
+          <span className="text-sm font-medium">{t("personalizedPicks")}</span>
         </div>
       </div>
 
@@ -152,7 +154,7 @@ const RecommendedProductsCarousel = () => {
                   <div className="absolute top-4 left-4 z-10">
                     <div className="bg-gradient-to-r from-purple-500 to-pink-600 text-white px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2">
                       <Sparkles className="w-4 h-4" />
-                      {product.matchPercentage}% Match
+                      {product.matchPercentage}% {t("match")}
                     </div>
                   </div>
 
@@ -160,12 +162,12 @@ const RecommendedProductsCarousel = () => {
                   <div className="absolute top-4 right-4 z-10 flex flex-col gap-2">
                     {product.isHot && (
                       <span className="bg-gradient-to-r from-orange-500 to-red-600 text-white px-3 py-1 rounded-full text-xs font-bold">
-                        🔥 HOT
+                        🔥 {t("hot")}
                       </span>
                     )}
                     {product.isNewRelease && (
                       <span className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-3 py-1 rounded-full text-xs font-bold">
-                        ✨ NEW
+                        ✨ {t("new")}
                       </span>
                     )}
                   </div>
@@ -185,7 +187,8 @@ const RecommendedProductsCarousel = () => {
                     <div className="absolute bottom-4 right-4">
                       <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${product.inStock ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}`}>
                         <div className={`w-2 h-2 rounded-full mr-2 ${product.inStock ? 'bg-emerald-400' : 'bg-red-400'}`} />
-                        {product.inStock ? "Available" : "Out of Stock"}
+                        {product.inStock ? t("available") : t("outOfStock")}
+                        
                       </span>
                     </div>
 
@@ -212,7 +215,7 @@ const RecommendedProductsCarousel = () => {
                       <div className="absolute top-20 right-4">
                         <div className="flex items-center gap-1 bg-blue-600/90 backdrop-blur-sm text-white text-xs px-3 py-1 rounded-full">
                           <Users className="w-3 h-3" />
-                          {product.friendsPlaying} friends playing
+                          {product.friendsPlaying} {t("friendsPlaying")}
                         </div>
                       </div>
                     )}
@@ -222,11 +225,11 @@ const RecommendedProductsCarousel = () => {
                       <div className="flex gap-3">
                         <button className="bg-white text-gray-900 px-4 py-2 rounded-full font-medium hover:bg-gray-100 transition-colors duration-200 transform translate-y-4 group-hover/card:translate-y-0 opacity-0 group-hover/card:opacity-100 flex items-center gap-2">
                           <Eye className="w-4 h-4" />
-                          Quick View
+                          {t("quickView")}
                         </button>
                         <button className="bg-purple-600 text-white px-4 py-2 rounded-full font-medium hover:bg-purple-700 transition-colors duration-200 transform translate-y-4 group-hover/card:translate-y-0 opacity-0 group-hover/card:opacity-100 flex items-center gap-2">
                           <Heart className="w-4 h-4" />
-                          Wishlist
+                          {t("wishlist")}
                         </button>
                       </div>
                     </div>
@@ -263,7 +266,7 @@ const RecommendedProductsCarousel = () => {
                         </span>
                       </div>
                       <div className="text-right">
-                        <div className="text-xs text-gray-400">Play Time</div>
+                        <div className="text-xs text-gray-400">{t("playTime")}</div>
                         <div className="text-sm font-semibold text-purple-400">{product.playTime}</div>
                       </div>
                     </div>
@@ -278,11 +281,11 @@ const RecommendedProductsCarousel = () => {
                     <div className="flex items-center justify-between text-sm text-gray-400 mb-6">
                       <div className="flex items-center gap-1">
                         <Shield className="w-4 h-4" />
-                        <span>{product.guarantee} warranty</span>
+                        <span>{product.guarantee} {t("warranty")}</span>
                       </div>
                       <div className="flex items-center gap-1">
                         <Truck className="w-4 h-4" />
-                        <span>Free shipping</span>
+                        <span>{t("freeShipping")}</span>
                       </div>
                     </div>
 
@@ -297,7 +300,7 @@ const RecommendedProductsCarousel = () => {
                         disabled={!product.inStock}
                       >
                         <ShoppingCart className="w-5 h-5" />
-                        {product.inStock ? 'Add to Cart' : 'Out of Stock'}
+                        {product.inStock ? t("addToCart") : t("outOfStock")}
                       </button>
                       <button className="p-4 rounded-xl border-2 border-purple-500 text-purple-400 hover:bg-purple-500 hover:text-white transition-all duration-300">
                         <Heart className="w-5 h-5" />
@@ -348,7 +351,7 @@ const RecommendedProductsCarousel = () => {
                     {/* Stock Status */}
                     <div className="absolute bottom-2 left-2">
                       <span className={`text-xs px-2 py-1 rounded ${product.inStock ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}>
-                        {product.inStock ? "Available" : "Out"}
+                        {product.inStock ? t("available") : t("outOfStock")}
                       </span>
                     </div>
                   </div>
@@ -401,7 +404,7 @@ const RecommendedProductsCarousel = () => {
                         disabled={!product.inStock}
                       >
                         <ShoppingCart className="w-3 h-3" />
-                        {product.inStock ? 'Add' : 'Out'}
+                        {product.inStock ?  t("addToCart") : t("outOfStock")}
                       </button>
                       <button className="p-2 rounded-lg border border-purple-500 text-purple-400 hover:bg-purple-500 hover:text-white transition-all duration-300">
                         <Heart className="w-3 h-3" />

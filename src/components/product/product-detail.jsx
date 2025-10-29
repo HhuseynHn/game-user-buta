@@ -22,6 +22,8 @@ import {
   Calendar,
   User,
 } from "lucide-react";
+import { useTranslation } from "@/hooks/use-translations";
+// import { useTranslation } from "react-i18next";
 
 const ProductDetail = () => {
   const [count, setCount] = useState(1);
@@ -44,7 +46,7 @@ const ProductDetail = () => {
       createdDate: "2024-01-10",
     },
   ]);
-
+  const { t } = useTranslation();
   const product = {
     name: "Cyberpunk 2077: Ultimate Edition",
     inStock: true,
@@ -113,14 +115,14 @@ const ProductDetail = () => {
                   <>
                     <Wifi className="w-4 h-4 text-green-400" />
                     <div className="text-green-400 text-[10px] sm:text-sm font-medium">
-                      Online
+                      {t("online")}
                     </div>
                   </>
                 ) : (
                   <>
                     <WifiOff className="w-4 h-4 text-gray-400" />
                     <div className="text-gray-400 text-[10px] sm:text-sm font-medium">
-                      Offline
+                      {t("offline")}
                     </div>
                   </>
                 )}
@@ -149,11 +151,10 @@ const ProductDetail = () => {
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      className={`w-3 sm:w-4 h-3 sm:h-4 ${
-                        i < Math.floor(product.rating)
-                          ? "text-yellow-400 fill-current"
-                          : "text-gray-600"
-                      }`}
+                      className={`w-3 sm:w-4 h-3 sm:h-4 ${i < Math.floor(product.rating)
+                        ? "text-yellow-400 fill-current"
+                        : "text-gray-600"
+                        }`}
                     />
                   ))}
                 </div>
@@ -178,19 +179,17 @@ const ProductDetail = () => {
               {/* Stock Status */}
               <div className="flex items-center gap-3 mb-2 sm:mb-4 mt-4 sm:mt-6">
                 <div
-                  className={`w-2 sm:w-3 h-2 sm:h-3 rounded-full ${
-                    product.inStock
-                      ? "bg-green-400 animate-pulse"
-                      : "bg-red-400"
-                  }`}></div>
+                  className={`w-2 sm:w-3 h-2 sm:h-3 rounded-full ${product.inStock
+                    ? "bg-green-400 animate-pulse"
+                    : "bg-red-400"
+                    }`}></div>
                 <span
-                  className={`text-[11px] sm:text-[15px] ${
-                    product.inStock ? "text-green-400" : "text-red-400"
-                  }`}>
-                  {product.inStock ? "In Stock" : "Out of Stock"}
+                  className={`text-[11px] sm:text-[15px] ${product.inStock ? "text-green-400" : "text-red-400"
+                    }`}>
+                  {product.inStock ? t("inStock") : t("outOfStock")}
                 </span>
                 {product.inStock && (
-                  <span className="text-gray-400 text-[10px] sm:text-[14px]">• Instant delivery</span>
+                  <span className="text-gray-400 text-[10px] sm:text-[14px]">• {t("instantDelivery")}</span>
                 )}
               </div>
 
@@ -216,14 +215,13 @@ const ProductDetail = () => {
               {/* Action Buttons */}
               <div className="flex gap-3 mb-4">
                 <button
-                  className={`flex-1 py-2 sm:py-4 px-6 rounded-xl font-bold text-[10px] sm:text-lg transition-all duration-300 flex items-center justify-center gap-3 transform hover:scale-105 ${
-                    product.inStock
-                      ? "bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white shadow-lg hover:shadow-2xl"
-                      : "bg-gray-700 text-gray-400 cursor-not-allowed"
-                  }`}
+                  className={`flex-1 py-2 sm:py-4 px-6 rounded-xl font-bold text-[10px] sm:text-lg transition-all duration-300 flex items-center justify-center gap-3 transform hover:scale-105 ${product.inStock
+                    ? "bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white shadow-lg hover:shadow-2xl"
+                    : "bg-gray-700 text-gray-400 cursor-not-allowed"
+                    }`}
                   disabled={!product.inStock}>
                   <ShoppingCart className="hidden sm:block w-5 h-5" />
-                  Add to Cart
+                  {t("addToCart")}
                 </button>
               </div>
 
@@ -231,10 +229,10 @@ const ProductDetail = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-5 border-t border-gray-700">
                 <div className="flex items-center gap-2 text-[12px] sm:text-[20px]">
                   <Tag className="w-4 sm:w-5 w-4 sm:h-5 text-blue-400" />
-                  <div className="text-gray-400 text-[12px] sm:text-[18px]">Type:</div>
+                  <div className="text-gray-400 text-[12px] sm:text-[18px]">{t("type")}:</div>
                   <div className="text-white text-[11px] sm:text-[16px]">{product.type}</div>
                 </div>
-            
+
               </div>
             </div>
 
@@ -243,7 +241,7 @@ const ProductDetail = () => {
               <div className="flex items-center gap-2 mb-3">
                 <Shield className="w-4 sm:w-5 w-4 sm:h-5 text-green-400" />
                 <div className="text-gray-400 text-[12px] sm:text-[18px]">
-                  Guarantee: {product.guarantee}
+                  {t("guarantee")}: {product.guarantee}
                 </div>
               </div>
               <p className="text-white text-[11px] sm:text-[17px]">
@@ -255,7 +253,7 @@ const ProductDetail = () => {
 
         {/* Description Section */}
         <div className="bg-gray-900 rounded-2xl p-8 border border-gray-800 mb-12">
-          <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-6">Description</h2>
+          <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-6">{t("Description")}</h2>
           <p className="text-gray-300 leading-relaxed text-[12px] sm:text-lg">
             {product.description}
           </p>
@@ -263,7 +261,7 @@ const ProductDetail = () => {
 
         {/* Video Section */}
         <div className="mb-12">
-          <h2 className="text-xl sm:text-2xl font-bold mb-6">Game Trailer</h2>
+          <h2 className="text-xl sm:text-2xl font-bold mb-6">{t("gameTrailer")}</h2>
           <div className="relative aspect-video bg-gray-900 rounded-2xl overflow-hidden group border border-gray-800 h-[500px] w-full">
             <Image
               src={product.video}
@@ -282,7 +280,7 @@ const ProductDetail = () => {
             {/* Video Label */}
             <div className="absolute top-4 left-4 bg-red-600 text-white px-4 py-2 rounded-full font-medium flex items-center gap-2 text-[11px] sm:text-[16px]">
               <Play className="w-3 sm:w-4 h-3 sm:h-4" />
-              Official Trailer
+              {t("officialTrailer")}
             </div>
           </div>
         </div>
@@ -291,7 +289,7 @@ const ProductDetail = () => {
         <div className="bg-gray-900 rounded-2xl p-6 md:p-8 border border-gray-800">
           <h2 className="text-[14px] md:text-2xl font-bold mb-6 flex items-center gap-2">
             <MessageSquare className="w-5 sm:w-6 h-5 sm:h-6 text-red-500" />
-            Comments ({comments.length})
+            {t("comments")} ({comments.length})
           </h2>
 
           {/* Add Comment Form */}
@@ -300,7 +298,7 @@ const ProductDetail = () => {
               <textarea
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
-                placeholder="Write your comment..."
+                placeholder={t("writeYourComment")}
                 className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none pr-12"
                 rows={3}
               />
@@ -324,7 +322,7 @@ const ProductDetail = () => {
                   </div>
                   <div className="flex-1">
                     <div className="">
-                      <div className="font-medium text-white">Anonymous</div>
+                      <div className="font-medium text-white">{t("anonymous")}</div>
                       <div className="flex items-center gap-1 text-gray-400 text-sm">
                         <Calendar className="w-3 sm:w-4 sm:h-4 h-3" />
                         <div className="text-[10px] sm:text-[13px]">
@@ -342,7 +340,7 @@ const ProductDetail = () => {
               <div className="text-center py-12">
                 <MessageSquare className="w-12 h-12 text-gray-600 mx-auto mb-4" />
                 <p className="text-gray-400">
-                  No comments yet. Be the first to comment!
+                  {t("noCommentsYet")}
                 </p>
               </div>
             )}

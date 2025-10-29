@@ -12,6 +12,9 @@ import {
   Truck,
 } from "lucide-react";
 import { useCarouselBestProduct } from "@/hooks/use-carousel-product";
+import { useTranslation } from "@/hooks/use-translations";
+import { useDispatch } from "react-redux";
+import { addItem } from "@/core/config/redux/slices/basket-slice";
 
 const bestSellerProducts = Array.from({ length: 14 }, (_, i) => ({
   id: i + 1,
@@ -44,6 +47,12 @@ const BestSellerCarousel = () => {
     handleMouseUp,
     handleMouseMove,
   } = useCarouselBestProduct();
+  const { t } = useTranslation();
+
+  const dispatch = useDispatch();
+  const handleAdd = () => {
+    dispatch(addItem({ ...product, quantity: 1 }));
+  };
 
   const groupedProducts = [];
   for (let i = 0; i < bestSellerProducts.length; i += 7) {
@@ -56,11 +65,15 @@ const BestSellerCarousel = () => {
       <div className="flex items-center gap-3 mb-6">
         <div className="flex items-center gap-2">
           <Crown className="w-5 sm:w-7 w-5 sm:h-7 text-red-500" />
-          <h2 className="text-[14px] sm:text-xl font-bold text-white">Best Sellers</h2>
+          <h2 className="text-[14px] sm:text-xl font-bold text-white">
+            {t("bestSellerGame")}
+          </h2>
         </div>
         <div className="flex items-center gap-1 text-red-500">
           <TrendingUp className="w-3 sm:w-4 w-3 sm:h-4" />
-          <span className="text-[9px] sm:text-sm font-medium">Top Selling Games</span>
+          <span className="text-[9px] sm:text-sm font-medium">
+            {t("topSellingGames")}
+          </span>
         </div>
       </div>
 
@@ -72,7 +85,8 @@ const BestSellerCarousel = () => {
             ? "opacity-40 cursor-not-allowed"
             : "opacity-0 group-hover:opacity-100"
         }`}
-        disabled={!canScrollLeft}>
+        disabled={!canScrollLeft}
+      >
         <ChevronLeft className="w-6 h-6 text-gray-800" />
       </button>
 
@@ -83,7 +97,8 @@ const BestSellerCarousel = () => {
             ? "opacity-40 cursor-not-allowed"
             : "opacity-0 group-hover:opacity-100"
         }`}
-        disabled={!canScrollRight}>
+        disabled={!canScrollRight}
+      >
         <ChevronRight className="w-6 h-6 text-gray-800" />
       </button>
 
@@ -99,7 +114,8 @@ const BestSellerCarousel = () => {
         onMouseDown={handleMouseDown}
         onMouseLeave={handleMouseLeave}
         onMouseUp={handleMouseUp}
-        onMouseMove={handleMouseMove}>
+        onMouseMove={handleMouseMove}
+      >
         {groupedProducts.map((group, groupIndex) => (
           <div key={groupIndex} className="flex-shrink-0 w-[90%]">
             {/* Top Row - 3 Large Cards */}
@@ -111,7 +127,8 @@ const BestSellerCarousel = () => {
                     product.isTopSeller
                       ? "border-yellow-500/50"
                       : "border-gray-700"
-                  } relative`}>
+                  } relative`}
+                >
                   {/* Top Badge */}
                   {product.isTopSeller && (
                     <div className="absolute top-4 left-4 z-10">
@@ -122,7 +139,8 @@ const BestSellerCarousel = () => {
                             : index === 1
                             ? "bg-gradient-to-r from-gray-300 to-gray-500 text-black"
                             : "bg-gradient-to-r from-orange-400 to-orange-600 text-white"
-                        }`}>
+                        }`}
+                      >
                         {index === 0
                           ? "👑 #1 Best Seller"
                           : index === 1
@@ -136,7 +154,7 @@ const BestSellerCarousel = () => {
                   <div className="relative h-60 sm:h-64 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
                     <Image
                       src={product.image}
-                      alt={product.name}
+                      alt={t(product.name)}
                       width={200}
                       height={166}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-110"
@@ -150,13 +168,14 @@ const BestSellerCarousel = () => {
                           product.inStock
                             ? "bg-emerald-100 text-emerald-800"
                             : "bg-red-100 text-red-800"
-                        }`}>
+                        }`}
+                      >
                         <div
                           className={`w-2 h-2 rounded-full mr-2 ${
                             product.inStock ? "bg-emerald-400" : "bg-red-400"
                           }`}
                         />
-                        {product.inStock ? "In Stock" : "Out of Stock"}
+                        {product.inStock ? t("inStock") : t("outOfStock")}
                       </span>
                     </div>
 
@@ -170,14 +189,14 @@ const BestSellerCarousel = () => {
                     {/* Category Tag */}
                     <div className="absolute bottom-4 left-4">
                       <span className="bg-black/70 backdrop-blur-sm text-white text-[11px] sm:text-sm px-3 py-2 rounded-md text-[13px]">
-                        {product.category}
+                        {t(product.category)}
                       </span>
                     </div>
 
                     {/* Hover Overlay */}
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                       <button className="bg-white text-gray-900 px-4 py-2 rounded-full font-medium hover:bg-gray-100 transition-colors duration-200 transform translate-y-4 group-hover/card:translate-y-0 opacity-0 group-hover/card:opacity-100 text-[13px]">
-                        Quick View
+                        {t("quickView")}
                       </button>
                     </div>
                   </div>
@@ -186,7 +205,7 @@ const BestSellerCarousel = () => {
                   <div className="p-6">
                     {/* Product Name */}
                     <h3 className="font-bold text-xl text-white mb-3 line-clamp-2 group-hover/card:text-yellow-400 transition-colors duration-300">
-                      {product.name}
+                      {t(product.name)}
                     </h3>
 
                     {/* Rating & Sales */}
@@ -209,7 +228,7 @@ const BestSellerCarousel = () => {
                         </span>
                       </div>
                       <span className="text-sm text-green-400 font-bold bg-green-400/10 px-2 py-1 rounded">
-                        {product.soldCount} sold
+                        {product.soldCount} {t("sold")}
                       </span>
                     </div>
 
@@ -228,7 +247,7 @@ const BestSellerCarousel = () => {
                       <div className="flex items-center gap-1">
                         <Shield className="w-5 h-5" />
                         <div className="text-[13px]">
-                          {product.guarantee} warranty
+                          {product.guarantee} {t("warranty")}
                         </div>
                       </div>
                     </div>
@@ -240,9 +259,11 @@ const BestSellerCarousel = () => {
                           ? "bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 hover:shadow-lg transform hover:scale-105"
                           : "bg-gray-700 text-gray-400 cursor-not-allowed"
                       }`}
-                      disabled={!product.inStock}>
+                      disabled={!product.inStock}
+                      onClick={handleAdd}
+                    >
                       <ShoppingCart className="sm:w-4 sm:h-4 w-5 h-5" />
-                      {product.inStock ? "Add to Cart" : "Out of Stock"}
+                      {product.inStock ? t("addToCart") : t("outOfStock")}
                     </button>
                   </div>
                 </div>
@@ -254,12 +275,13 @@ const BestSellerCarousel = () => {
               {group.slice(3, 7).map((product) => (
                 <div
                   key={product.id}
-                  className="bg-gray-900 rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 overflow-hidden group/card transform hover:-translate-y-2 border border-gray-700">
+                  className="bg-gray-900 rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 overflow-hidden group/card transform hover:-translate-y-2 border border-gray-700"
+                >
                   {/* Image Container */}
                   <div className="relative h-36 sm:h-40 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
                     <Image
                       src={product.image}
-                      alt={product.name}
+                      alt={t(product.name)}
                       width={300}
                       height={160}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-110"
@@ -287,8 +309,9 @@ const BestSellerCarousel = () => {
                           product.inStock
                             ? "bg-green-500 text-white"
                             : "bg-red-500 text-white"
-                        }`}>
-                        {product.inStock ? "In Stock" : "Out"}
+                        }`}
+                      >
+                        {product.inStock ? t("inStock") : t("outOfStock")}
                       </span>
                     </div>
                   </div>
@@ -296,7 +319,7 @@ const BestSellerCarousel = () => {
                   {/* Content */}
                   <div className="p-4">
                     <h3 className="font-bold text-[12px] sm:text-lg text-white mb-2 line-clamp-2 group-hover/card:text-yellow-400 transition-colors duration-300">
-                      {product.name}
+                      {t(product.name)}
                     </h3>
 
                     {/* Rating */}
@@ -322,7 +345,7 @@ const BestSellerCarousel = () => {
 
                     {/* Sales Info */}
                     <div className="text-[9px] sm:text-xs text-green-400 mb-2 sm:mb-3 font-medium">
-                      {product.soldCount} sold
+                      {product.soldCount} {t("sold")}
                     </div>
 
                     {/* Add to Cart Button */}
@@ -332,10 +355,11 @@ const BestSellerCarousel = () => {
                           ? "bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 transform hover:scale-105"
                           : "bg-gray-700 text-gray-400 cursor-not-allowed"
                       }`}
-                      disabled={!product.inStock}>
+                      disabled={!product.inStock}
+                    >
                       <ShoppingCart className="w-3 sm:w-4 h-3 sm:h-4" />
                       <div className="text-[8px] sm:text-[13px]  sm:inline">
-                        {product.inStock ? "Add to Cart" : "Out of Stock"}
+                        {product.inStock ? t("addToCart") : t("outOfStock")}
                       </div>
                     </button>
                   </div>

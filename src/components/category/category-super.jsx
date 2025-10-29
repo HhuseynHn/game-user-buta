@@ -3,10 +3,11 @@ import { useDragScroll } from "@/hooks/use-drag-scrool";
 import { categoryService } from "@/services/category-service";
 import Image from "next/image";
 import React, { useEffect, useState, useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 const CategorySuper = () => {
   const [categories, setCategories] = useState([]);
-
+  const { t } = useTranslation();
   useEffect(() => {
     let isMounted = true;
 
@@ -38,7 +39,7 @@ const CategorySuper = () => {
 
   return (
     <div>
-      <h2>Pick Your Platform</h2>
+      <h2>{t("pickYourPlatform")}</h2>
       <div
         ref={carouselRef}
         className="mt-1 flex gap-4 overflow-x-scroll scroll-hidden p-4 cursor-grab active:cursor-grabbing"

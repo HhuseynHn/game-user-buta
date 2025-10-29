@@ -6,11 +6,12 @@ import Joi from "joi";
 import { Eye, EyeOff, Mail, Lock, User, AlertCircle } from "lucide-react";
 import { registerSchema } from "@/schemas/auth-schema";
 import Link from "next/link";
+import { useTranslation } from "@/hooks/use-translations";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -38,6 +39,7 @@ const Register = () => {
   };
 
   return (
+
     <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="bg-gray-900 rounded-2xl border border-gray-800 p-6 md:p-8">
@@ -47,26 +49,25 @@ const Register = () => {
               <User className="w-8 h-8 text-white" />
             </div>
             <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">
-              Create Account
+              {t("createAccount")}
             </h1>
-            <p className="text-gray-400">Join our gaming community today</p>
+            <p className="text-gray-400">{t("joinCommunity")}</p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {/* Email Field */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                Email Address
+                {t("emailAddress")}
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
                   type="email"
                   {...register("email")}
-                  className={`w-full bg-gray-800 border ${
-                    errors.email ? "border-red-500" : "border-gray-700"
-                  } rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all`}
-                  placeholder="Enter your email"
+                  className={`w-full bg-gray-800 border ${errors.email ? "border-red-500" : "border-gray-700"
+                    } rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all`}
+                  placeholder={t("enterEmail")}
                 />
               </div>
               {errors.email && (
@@ -80,17 +81,16 @@ const Register = () => {
             {/* Password Field */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                Password
+                {t("password")}
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
                   type={showPassword ? "text" : "password"}
                   {...register("password")}
-                  className={`w-full bg-gray-800 border ${
-                    errors.password ? "border-red-500" : "border-gray-700"
-                  } rounded-lg pl-10 pr-12 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all`}
-                  placeholder="Create a password"
+                  className={`w-full bg-gray-800 border ${errors.password ? "border-red-500" : "border-gray-700"
+                    } rounded-lg pl-10 pr-12 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all`}
+                  placeholder={t("createPassword")}
                 />
                 <button
                   type="button"
@@ -127,21 +127,20 @@ const Register = () => {
                       return (
                         <div
                           key={i}
-                          className={`h-1 flex-1 rounded ${
-                            i < strength
-                              ? strength <= 2
-                                ? "bg-red-500"
-                                : strength <= 3
+                          className={`h-1 flex-1 rounded ${i < strength
+                            ? strength <= 2
+                              ? "bg-red-500"
+                              : strength <= 3
                                 ? "bg-yellow-500"
                                 : "bg-green-500"
-                              : "bg-gray-600"
-                          }`}
+                            : "bg-gray-600"
+                            }`}
                         />
                       );
                     })}
                   </div>
                   <p className="text-xs text-gray-400">
-                    Password strength:{" "}
+                    {t("passwordStrength")}{" "}
                     {(() => {
                       const password = watch("password") || "";
                       let strength = 0;
@@ -163,19 +162,19 @@ const Register = () => {
 
             {/* Terms and Privacy */}
             <div className="text-xs text-gray-400 leading-relaxed">
-              By creating an account, you agree to our{" "}
+              {t("byCreating")}{" "}
               <a
                 href="#"
                 className="text-red-400 hover:text-red-300 transition-colors"
               >
-                Terms of Service
+                {t("termsOfService")}
               </a>{" "}
-              and{" "}
+              {t("and")}{" "}
               <a
                 href="#"
                 className="text-red-400 hover:text-red-300 transition-colors"
               >
-                Privacy Policy
+                {t("privacyPolicy")}
               </a>
             </div>
 
@@ -188,10 +187,10 @@ const Register = () => {
               {isLoading ? (
                 <>
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Creating Account...
+                  {t("creatingAccount")}
                 </>
               ) : (
-                "Create Account"
+                t("createAccount")
               )}
             </button>
           </form>
@@ -199,12 +198,12 @@ const Register = () => {
           {/* Footer */}
           <div className="mt-8 text-center">
             <p className="text-gray-400">
-              Already have an account?{" "}
+              {t("alreadyHaveAccount")}{" "}
               <Link
                 href={"/login"}
                 className="text-red-400 hover:text-red-300 font-medium transition-colors"
               >
-                Sign In
+                {t("signIn")}
               </Link>
             </p>
           </div>

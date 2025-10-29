@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   Search,
   Filter,
@@ -14,6 +14,7 @@ import {
   List,
   SlidersHorizontal,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const ProductFilter = () => {
   const [searchText, setSearchText] = useState("");
@@ -23,8 +24,9 @@ const ProductFilter = () => {
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [viewMode, setViewMode] = useState("grid");
+  const [isHydrated, setIsHydrated] = useState(false)
   const itemsPerPage = 12;
-
+  const { t } = useTranslation();
   // Mock data
   const allProducts = Array.from({ length: 48 }, (_, i) => ({
     id: i + 1,
@@ -102,6 +104,8 @@ const ProductFilter = () => {
     selectedSubCategory,
   ]);
 
+
+
   // Pagination
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -119,13 +123,17 @@ const ProductFilter = () => {
     setCurrentPage(1);
   };
 
+  useEffect(() => {
+    setIsHydrated(true)
+  }, [])
+
   return (
     <div className="min-h-screen bg-gray-950 text-white">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold mb-1 sm:mb-2">Browse Games</h1>
-          <p className="text-[12px] sm:text-[16px] text-gray-400">Find your next favorite game</p>
+          <h1 className="text-2xl md:text-3xl font-bold mb-1 sm:mb-2">  {isHydrated ? t("browseGames") : "Browser Games"} </h1>
+          <p className="text-[12px] sm:text-[16px] text-gray-400"> {isHydrated ? t("findYourNextFavoriteGame") : "Find your next favorite game"}</p> 
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -135,12 +143,13 @@ const ProductFilter = () => {
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-bold flex items-center gap-2">
                   <Filter className="w-5 h-5 text-red-500" />
-                  Filters
+                  {isHydrated ? t("filters") : "Filters"}
                 </h2>
                 <button
                   onClick={clearFilters}
                   className="text-white-500 hover:text-red-400 text-sm font-medium transition-colors">
-                  Clear All
+                    {isHydrated ? t("clearAll") : "Clear All"}
+                  
                 </button>
               </div>
 
@@ -148,7 +157,7 @@ const ProductFilter = () => {
                 {/* Search Input */}
                 <div>
                   <label className="block text-sm font-medium mb-3">
-                    Search
+                    {t("search")}
                   </label>
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -156,7 +165,7 @@ const ProductFilter = () => {
                       type="text"
                       value={searchText}
                       onChange={(e) => setSearchText(e.target.value)}
-                      placeholder="Search games..."
+                      placeholder={t("searchGames")}
                       className="w-full bg-gray-800 border border-gray-700 rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
                     />
                   </div>
@@ -164,12 +173,12 @@ const ProductFilter = () => {
 
                 {/* Mode Filter */}
                 <div>
-                  <label className="block text-sm font-medium mb-3">Mode</label>
+                  <label className="block text-sm font-medium mb-3">{t("mode")}</label>
                   <select
                     value={selectedMode}
                     onChange={(e) => setSelectedMode(e.target.value)}
                     className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
-                    <option value="">All Modes</option>
+                    <option value="">{t("allModes")}</option>
                     {filterOptions.modes.map((mode) => (
                       <option key={mode} value={mode}>
                         {mode.charAt(0).toUpperCase() + mode.slice(1)}
@@ -181,7 +190,7 @@ const ProductFilter = () => {
                 {/* Price Range */}
                 <div>
                   <label className="block text-sm font-medium mb-3">
-                    Price Range
+                    {t("priceRange")}
                   </label>
                   <div className="flex gap-2">
                     <input
@@ -215,13 +224,13 @@ const ProductFilter = () => {
                 {/* Super Category */}
                 <div>
                   <label className="block text-sm font-medium mb-3">
-                    Category
+                    {t("category")}
                   </label>
                   <select
                     value={selectedSuperCategory}
                     onChange={(e) => setSelectedSuperCategory(e.target.value)}
                     className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
-                    <option value="">All Categories</option>
+                    <option value="">{t("allCategories")}</option>
                     {filterOptions.superCategories.map((category) => (
                       <option key={category} value={category}>
                         {category}
@@ -233,13 +242,13 @@ const ProductFilter = () => {
                 {/* Sub Category */}
                 <div>
                   <label className="block text-sm font-medium mb-3">
-                    Sub Category
+                    {t("subCategory")}
                   </label>
                   <select
                     value={selectedSubCategory}
                     onChange={(e) => setSelectedSubCategory(e.target.value)}
                     className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
-                    <option value="">All Sub Categories</option>
+                    <option value="">{t("allSubCategories")}</option>
                     {filterOptions.subCategories.map((category) => (
                       <option key={category} value={category}>
                         {category}
@@ -257,18 +266,17 @@ const ProductFilter = () => {
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-4">
                 <h3 className="text-xl font-bold">
-                  {filteredProducts.length} Games Found
+                  {filteredProducts.length} {t("gamesFound")}
                 </h3>
               </div>
 
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setViewMode("grid")}
-                  className={`p-2 rounded-lg transition-colors ${
-                    viewMode === "grid"
-                      ? "bg-red-600 text-white"
-                      : "bg-gray-800 text-gray-400 hover:text-white"
-                  }`}>
+                  className={`p-2 rounded-lg transition-colors ${viewMode === "grid"
+                    ? "bg-red-600 text-white"
+                    : "bg-gray-800 text-gray-400 hover:text-white"
+                    }`}>
                   <Grid className="w-4 h-4" />
                 </button>
               </div>
@@ -277,22 +285,19 @@ const ProductFilter = () => {
             {/* Products Grid */}
             {paginatedProducts.length > 0 ? (
               <div
-                className={`grid gap-6 mb-8 ${
-                  viewMode === "grid"
-                    ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-                    : "grid-cols-1"
-                }`}>
+                className={`grid gap-6 mb-8 ${viewMode === "grid"
+                  ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+                  : "grid-cols-1"
+                  }`}>
                 {paginatedProducts.map((product) => (
                   <div
                     key={product.id}
-                    className={`bg-gray-900 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden group border border-gray-700 transform hover:-translate-y-2 ${
-                      viewMode === "list" ? "flex" : ""
-                    }`}>
+                    className={`bg-gray-900 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden group border border-gray-700 transform hover:-translate-y-2 ${viewMode === "list" ? "flex" : ""
+                      }`}>
                     {/* Image */}
                     <div
-                      className={`relative overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 ${
-                        viewMode === "list" ? "w-48 h-32" : "h-48"
-                      }`}>
+                      className={`relative overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 ${viewMode === "list" ? "w-48 h-32" : "h-48"
+                        }`}>
                       <Image
                         src={product.image}
                         alt={product.name}
@@ -303,17 +308,15 @@ const ProductFilter = () => {
                       {/* Stock Badge */}
                       <div className="absolute top-3 left-3">
                         <span
-                          className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                            product.inStock
-                              ? "bg-emerald-100 text-emerald-800"
-                              : "bg-red-100 text-red-800"
-                          }`}>
+                          className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${product.inStock
+                            ? "bg-emerald-100 text-emerald-800"
+                            : "bg-red-100 text-red-800"
+                            }`}>
                           <div
-                            className={`w-1.5 h-1.5 rounded-full mr-1 ${
-                              product.inStock ? "bg-emerald-400" : "bg-red-400"
-                            }`}
+                            className={`w-1.5 h-1.5 rounded-full mr-1 ${product.inStock ? "bg-emerald-400" : "bg-red-400"
+                              }`}
                           />
-                          {product.inStock ? "In Stock" : "Out"}
+                          {product.inStock ? t("inStock") : t("outOfStock")}
                         </span>
                       </div>
 
@@ -353,11 +356,10 @@ const ProductFilter = () => {
                           {[...Array(5)].map((_, i) => (
                             <Star
                               key={i}
-                              className={`w-4 h-4 ${
-                                i < Math.floor(product.rating)
-                                  ? "text-yellow-400 fill-current"
-                                  : "text-gray-300"
-                              }`}
+                              className={`w-4 h-4 ${i < Math.floor(product.rating)
+                                ? "text-yellow-400 fill-current"
+                                : "text-gray-300"
+                                }`}
                             />
                           ))}
                         </div>
@@ -379,16 +381,15 @@ const ProductFilter = () => {
                       {/* Action Buttons */}
                       <div className="flex gap-2">
                         <button
-                          className={`flex-1 py-2 px-3 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 ${
-                            product.inStock
-                              ? "bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 transform hover:scale-105"
-                              : "bg-gray-700 text-gray-400 cursor-not-allowed"
-                          }`}
+                          className={`flex-1 py-2 px-3 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 ${product.inStock
+                            ? "bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 transform hover:scale-105"
+                            : "bg-gray-700 text-gray-400 cursor-not-allowed"
+                            }`}
                           disabled={!product.inStock}>
                           <ShoppingCart className="hidden sm:block w-4 h-4" />
-                          {product.inStock ? "Add to Cart" : "Out of Stock"}
+                          {product.inStock ? t("addToCart") : t("outOfStock")}
                         </button>
-                   
+
                       </div>
                     </div>
                   </div>
@@ -398,9 +399,9 @@ const ProductFilter = () => {
               <div className="text-center py-12">
                 <div className="text-6xl mb-4">🎮</div>
                 <h3 className="text-xl font-bold text-gray-400 mb-2">
-                  No games found
+                  {t("noGamesFound")}
                 </h3>
-                <p className="text-gray-500">Try adjusting your filters</p>
+                <p className="text-gray-500">{t("tryAdjustingFilters")}</p>
               </div>
             )}
 
@@ -412,12 +413,12 @@ const ProductFilter = () => {
                   disabled={currentPage === 1}
                   className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 disabled:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg transition-colors">
                   <ChevronLeft className="w-4 h-4" />
-                  Previous
+                  {t("previous")}
                 </button>
 
                 <div className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-800 rounded-lg">
                   <span className="text-white">
-                    Page {currentPage} of {totalPages}
+                    {t("page")} {currentPage} {t("of")} {totalPages}
                   </span>
                 </div>
 
@@ -427,7 +428,7 @@ const ProductFilter = () => {
                   }
                   disabled={currentPage === totalPages}
                   className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 disabled:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg transition-colors">
-                  Next
+                  {t("next")}
                   <ChevronRight className="w-4 h-4" />
                 </button>
               </div>

@@ -6,10 +6,12 @@ import { Eye, EyeOff, Mail, Lock, User, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { CgGoogle } from "react-icons/cg";
 import { loginSchema } from "@/schemas/auth-schema";
+import { useTranslation } from "@/hooks/use-translations";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { t } = useTranslation();
 
   const {
     register,
@@ -48,25 +50,24 @@ const Login = () => {
             <div className="w-16 h-16 bg-gradient-to-r from-red-600 to-red-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <User className="w-8 h-8 text-white" />
             </div>
-            <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">Welcome Back</h1>
-            <p className="text-gray-400">Login to continue your adventure</p>
+            <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">{t("welcomeBack")}</h1>
+            <p className="text-gray-400">{t("loginToContinue")}</p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {/* Email Field */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                Email Address
+                {t("emailAddress")}
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
                   type="email"
                   {...register("email")}
-                  className={`w-full bg-gray-800 border ${
-                    errors.email ? "border-red-500" : "border-gray-700"
-                  } rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500`}
-                  placeholder="Enter your email"
+                  className={`w-full bg-gray-800 border ${errors.email ? "border-red-500" : "border-gray-700"
+                    } rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500`}
+                  placeholder={t("enterEmail")}
                 />
               </div>
               {errors.email && (
@@ -80,17 +81,16 @@ const Login = () => {
             {/* Password Field */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                Password
+                {t("password")}
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
                   type={showPassword ? "text" : "password"}
                   {...register("password")}
-                  className={`w-full bg-gray-800 border ${
-                    errors.password ? "border-red-500" : "border-gray-700"
-                  } rounded-lg pl-10 pr-12 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500`}
-                  placeholder="Enter your password"
+                  className={`w-full bg-gray-800 border ${errors.password ? "border-red-500" : "border-gray-700"
+                    } rounded-lg pl-10 pr-12 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500`}
+                  placeholder={t("enterPassword")}
                 />
                 <button
                   type="button"
@@ -117,10 +117,10 @@ const Login = () => {
               {isLoading ? (
                 <>
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Logging in...
+                  {t("loggingIn")}
                 </>
               ) : (
-                "Login"
+                t("login")
               )}
             </button>
 
@@ -130,7 +130,7 @@ const Login = () => {
                 <div className="w-full border-t border-gray-700"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-gray-900 text-gray-400">Or continue with</span>
+                <span className="px-2 bg-gray-900 text-gray-400">{t("orContinueWith")}</span>
               </div>
             </div>
 
@@ -141,19 +141,20 @@ const Login = () => {
               className="w-full bg-white hover:bg-gray-100 text-gray-900 py-3 px-4 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-3 border border-gray-300"
             >
               <CgGoogle className="w-5 h-5" />
-              Sign in with Google
+              {t("signInWithGoogle")}
             </button>
           </form>
 
           {/* Footer */}
           <div className="mt-8 text-center">
             <p className="text-gray-400">
-              Don’t have an account?{" "}
+              {t("dontHaveAccount")}{" "}
               <Link
                 href={"/register"}
                 className="text-red-400 hover:text-red-300 font-medium transition-colors"
               >
-                Sign Up
+                {t("signUp")}
+
               </Link>
             </p>
           </div>

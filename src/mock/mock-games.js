@@ -1,0 +1,222 @@
+export const mockGames = [
+  {
+    id: 1,
+    name: "Cyberpunk 2077",
+    title: "Ultimate Edition",
+    image: "/images/games/cyberpunk.jpg",
+    price: 29.99,
+    originalPrice: 59.99,
+    discount: 50,
+    category: "RPG",
+    platform: ["PC", "PS5", "Xbox"]
+  },
+  {
+    id: 2,
+    name: "The Witcher 3",
+    title: "Wild Hunt - Complete Edition",
+    image: "/images/games/witcher3.jpg",
+    price: 19.99,
+    originalPrice: 39.99,
+    discount: 50,
+    category: "RPG",
+    platform: ["PC", "PS4", "Xbox"]
+  },
+  {
+    id: 3,
+    name: "Red Dead Redemption 2",
+    title: "Special Edition",
+    image: "/images/games/rdr2.jpg",
+    price: 39.99,
+    originalPrice: 59.99,
+    discount: 33,
+    category: "Action",
+    platform: ["PC", "PS4", "Xbox"]
+  },
+  {
+    id: 4,
+    name: "GTA V",
+    title: "Grand Theft Auto V - Premium Edition",
+    image: "/images/games/gtav.jpg",
+    price: 14.99,
+    originalPrice: 29.99,
+    discount: 50,
+    category: "Action",
+    platform: ["PC", "PS5", "Xbox"]
+  },
+  {
+    id: 5,
+    name: "Elden Ring",
+    title: "Game of the Year Edition",
+    image: "/images/games/eldenring.jpg",
+    price: 49.99,
+    originalPrice: 69.99,
+    discount: 29,
+    category: "RPG",
+    platform: ["PC", "PS5", "Xbox"]
+  },
+  {
+    id: 6,
+    name: "Minecraft",
+    title: "Java & Bedrock Edition",
+    image: "/images/games/minecraft.jpg",
+    price: 26.95,
+    originalPrice: null,
+    discount: 0,
+    category: "Sandbox",
+    platform: ["PC", "Mobile", "Console"]
+  },
+  {
+    id: 7,
+    name: "God of War",
+    title: "Ragnarök",
+    image: "/images/games/gow.jpg",
+    price: 59.99,
+    originalPrice: 69.99,
+    discount: 14,
+    category: "Action",
+    platform: ["PS5", "PS4"]
+  },
+  {
+    id: 8,
+    name: "Hogwarts Legacy",
+    title: "Deluxe Edition",
+    image: "/images/games/hogwarts.jpg",
+    price: 44.99,
+    originalPrice: 69.99,
+    discount: 36,
+    category: "RPG",
+    platform: ["PC", "PS5", "Xbox"]
+  },
+  {
+    id: 9,
+    name: "Spider-Man",
+    title: "Miles Morales Ultimate Edition",
+    image: "/images/games/spiderman.jpg",
+    price: 39.99,
+    originalPrice: 59.99,
+    discount: 33,
+    category: "Action",
+    platform: ["PS5", "PC"]
+  },
+  {
+    id: 10,
+    name: "Valorant",
+    title: "Free to Play",
+    image: "/images/games/valorant.jpg",
+    price: 0.00,
+    originalPrice: null,
+    discount: 0,
+    category: "FPS",
+    platform: ["PC"]
+  },
+  {
+    id: 11,
+    name: "Call of Duty",
+    title: "Modern Warfare III",
+    image: "/images/games/cod.jpg",
+    price: 59.99,
+    originalPrice: 69.99,
+    discount: 14,
+    category: "FPS",
+    platform: ["PC", "PS5", "Xbox"]
+  },
+  {
+    id: 12,
+    name: "FIFA 24",
+    title: "Standard Edition",
+    image: "/images/games/fifa24.jpg",
+    price: 39.99,
+    originalPrice: 59.99,
+    discount: 33,
+    category: "Sports",
+    platform: ["PC", "PS5", "Xbox"]
+  },
+  {
+    id: 13,
+    name: "Fortnite",
+    title: "Battle Royale",
+    image: "/images/games/fortnite.jpg",
+    price: 0.00,
+    originalPrice: null,
+    discount: 0,
+    category: "Battle Royale",
+    platform: ["PC", "Mobile", "Console"]
+  },
+  {
+    id: 14,
+    name: "Assassin's Creed",
+    title: "Mirage",
+    image: "/images/games/ac-mirage.jpg",
+    price: 34.99,
+    originalPrice: 49.99,
+    discount: 30,
+    category: "Action",
+    platform: ["PC", "PS5", "Xbox"]
+  },
+  {
+    id: 15,
+    name: "Starfield",
+    title: "Premium Edition",
+    image: "/images/games/starfield.jpg",
+    price: 79.99,
+    originalPrice: 99.99,
+    discount: 20,
+    category: "RPG",
+    platform: ["PC", "Xbox"]
+  },
+  {
+    id: 16,
+    name: "Counter-Strike 2",
+    title: "Free to Play",
+    image: "/images/games/cs2.jpg",
+    price: 0.00,
+    originalPrice: null,
+    discount: 0,
+    category: "FPS",
+    platform: ["PC"]
+  },
+  {
+    id: 17,
+    name: "Baldur's Gate 3",
+    title: "Digital Deluxe Edition",
+    image: "/images/games/bg3.jpg",
+    price: 59.99,
+    originalPrice: 69.99,
+    discount: 14,
+    category: "RPG",
+    platform: ["PC", "PS5"]
+  },
+  {
+    id: 18,
+    name: "League of Legends",
+    title: "Free to Play",
+    image: "/images/games/lol.jpg",
+    price: 0.00,
+    originalPrice: null,
+    discount: 0,
+    category: "MOBA",
+    platform: ["PC"]
+  },
+  {
+    id: 19,
+    name: "Palworld",
+    title: "Early Access",
+    image: "/images/games/palworld.jpg",
+    price: 29.99,
+    originalPrice: null,
+    discount: 0,
+    category: "Survival",
+    platform: ["PC", "Xbox"]
+  },
+  {
+    id: 20,
+    name: "Apex Legends",
+    title: "Free to Play",
+    image: "/images/games/apex.jpg",
+    price: 0.00,
+    originalPrice: null,
+    discount: 0,
+    category: "Battle Royale",
+    platform: ["PC", "PS5", "Xbox"]
+  }
+];

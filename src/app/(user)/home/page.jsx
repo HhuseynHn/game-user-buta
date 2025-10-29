@@ -10,35 +10,37 @@ import ProductBest from "@/components/product/product-best";
 import ProductDetail from "@/components/product/product-detail";
 import ProductFilter from "@/components/product/product-filter";
 import ProductLateSet from "@/components/product/product-lateset";
+import RecommendedProductsCarousel from "@/components/product/product-recommended";
 import ProductRecommended from "@/components/product/product-recommended";
 
 export default function Home() {
   return (
-   <>
-   <main className="flex justify-center">
-    <div className="w-[90%]">
-   <section >
-      <HeroSection/>
-      {/* <ProductBest/> */}
-      {/* <ProductFilter/> */}
-    </section>
-    <section>
-      <CategorySuper/>
-    </section>
-    <section>
-      <CategoryPopular/>
-    </section>
+    <>
+      <main className="flex justify-center">
+        <div className="w-[90%]">
+          <section >
+            <HeroSection />
+            {/* <ProductBest/> */}
+            {/* <ProductFilter/> */}
+          </section>
+          <section>
+            <CategorySuper/>
+            
+          </section>
+          <section>
+            <CategoryPopular/>
+          </section>
 
-    <section>
-       <ProductLateSet/>
-    </section>
+          <section>
+            <ProductLateSet/>
+          </section>
 
-    <section >
-      <ProductBest/>
-    </section>
-    </div>
- 
-   </main>
-   </>
+          <section >
+            <ProductBest/>
+          </section>
+        </div>
+
+      </main>
+    </>
   );
 }
