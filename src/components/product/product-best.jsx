@@ -15,26 +15,9 @@ import { useCarouselBestProduct } from "@/hooks/use-carousel-product";
 import { useTranslation } from "@/hooks/use-translations";
 import { useDispatch } from "react-redux";
 import { addItem } from "@/core/config/redux/slices/basket-slice";
+import { bestSellerProductData } from "@/mock/product-best-mock";
 
-const bestSellerProducts = Array.from({ length: 14 }, (_, i) => ({
-  id: i + 1,
-  name: `Best Seller Game ${i + 1}`,
-  price: `$${(Math.random() * 80 + 20).toFixed(2)}`,
-  originalPrice: `$${(Math.random() * 100 + 60).toFixed(2)}`,
-  discount: `${Math.floor(Math.random() * 40 + 15)}%`,
-  inStock: Math.random() > 0.15,
-  guarantee: `${Math.floor(Math.random() * 3 + 1)} years`,
-  rating: (Math.random() * 1.5 + 3.5).toFixed(1),
-  reviews: Math.floor(Math.random() * 1000 + 100),
-  soldCount: Math.floor(Math.random() * 5000 + 1000),
-  image:
-    "https://pic.rutubelist.ru/video/2025-03-27/21/24/2124809b3643156a7871db7409722bde.jpg",
-  category: ["Action", "Adventure", "RPG", "Strategy", "Sports"][
-    Math.floor(Math.random() * 5)
-  ],
-  rank: i + 1,
-  isTopSeller: i < 3,
-}));
+const bestSellerProducts = bestSellerProductData;
 
 const BestSellerCarousel = () => {
   const {
@@ -50,6 +33,24 @@ const BestSellerCarousel = () => {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
+  const handleAddToCart = (product) => {
+    // 🟣 Convert price and discount to numbers if needed
+    const price = parseFloat(product.price.replace("$", ""));
+    const discount = parseFloat(product.discount.replace("%", ""));
+
+    // 🟢 Dispatch addItem action
+    dispatch(
+      addItem({
+        id: product.id,
+        name: product.name,
+        price: price,
+        discount: discount,
+        quantity: 1,
+        image: product.image,
+      })
+    );
+  };
+
   const handleAdd = () => {
     dispatch(addItem({ ...product, quantity: 1 }));
   };
@@ -254,13 +255,13 @@ const BestSellerCarousel = () => {
 
                     {/* Add to Cart Button */}
                     <button
+                      onClick={() => handleAddToCart(product)}
                       className={`w-full py-3 px-5 rounded-xl font-bold text-[13px] sm:text-[15px] transition-all duration-300 flex items-center justify-center gap-3 ${
                         product.inStock
                           ? "bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 hover:shadow-lg transform hover:scale-105"
                           : "bg-gray-700 text-gray-400 cursor-not-allowed"
                       }`}
                       disabled={!product.inStock}
-                      onClick={handleAdd}
                     >
                       <ShoppingCart className="sm:w-4 sm:h-4 w-5 h-5" />
                       {product.inStock ? t("addToCart") : t("outOfStock")}
@@ -350,6 +351,7 @@ const BestSellerCarousel = () => {
 
                     {/* Add to Cart Button */}
                     <button
+                      onClick={() => handleAddToCart(product)}
                       className={`w-full py-2 sm:py-3 px-2 sm:px-4 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2 text-[11px] sm:text-[13px] ${
                         product.inStock
                           ? "bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 transform hover:scale-105"

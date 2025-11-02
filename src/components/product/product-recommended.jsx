@@ -1,25 +1,25 @@
 "use client";
 import Image from "next/image";
 import React, { useRef, useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight, ShoppingCart, Star, Heart, Sparkles, Users, Clock, Shield, Truck, Eye } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ShoppingCart,
+  Star,
+  Heart,
+  Sparkles,
+  Users,
+  Clock,
+  Shield,
+  Truck,
+  Eye,
+} from "lucide-react";
 import { useTranslation } from "@/hooks/use-translations";
+import { recommendedProductsMock } from "@/mock/product-recomended-mock";
+import { useDispatch } from "react-redux";
+import { addItem } from "@/core/config/redux/slices/basket-slice";
 
-
-const recommendedProducts = Array.from({ length: 16 }, (_, i) => ({
-  id: i + 1,
-  name: `Recommended Game ${i + 1}`,
-  price: `$${(Math.random() * 70 + 25).toFixed(2)}`,
-  originalPrice: `$${(Math.random() * 90 + 50).toFixed(2)}`,
-  discount: `${Math.floor(Math.random() * 35 + 20)}%`,
-  inStock: Math.random() > 0.1,
-  guarantee: `${Math.floor(Math.random() * 3 + 1)} years`,
-  rating: (Math.random() * 1.5 + 3.5).toFixed(1),
-  reviews: Math.floor(Math.random() * 800 + 150),
-  image: "https://pic.rutubelist.ru/video/2025-03-27/21/24/2124809b3643156a7871db7409722bde.jpg",
-  category: ["Action", "Adventure", "RPG", "Strategy", "Sports", "Indie", "Simulation"][Math.floor(Math.random() * 7)],
-  reasonType: ["Similar to your favorites", "Based on your wishlist", "Friends are playing", "Trending in your region", "Perfect for your playtime"][Math.floor(Math.random() * 5)],
-}));
-
+const recommendedProducts = recommendedProductsMock;
 const RecommendedProductsCarousel = () => {
   const carouselRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -28,6 +28,7 @@ const RecommendedProductsCarousel = () => {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const { t } = useTranslation();
+  const dispatch=useDispatch()
   const checkScrollButtons = () => {
     if (carouselRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
@@ -39,35 +40,51 @@ const RecommendedProductsCarousel = () => {
   const scrollCarousel = (direction) => {
     if (carouselRef.current) {
       const scrollAmount = window.innerWidth;
-      const newScrollLeft = direction === 'left' 
-        ? carouselRef.current.scrollLeft - scrollAmount
-        : carouselRef.current.scrollLeft + scrollAmount;
-      
+      const newScrollLeft =
+        direction === "left"
+          ? carouselRef.current.scrollLeft - scrollAmount
+          : carouselRef.current.scrollLeft + scrollAmount;
+
       carouselRef.current.scrollTo({
         left: newScrollLeft,
-        behavior: 'smooth'
+        behavior: "smooth",
       });
     }
   };
 
+  const handleAddToCart = (product) => {
+    // 🟣 Convert price and discount to numbers if needed
+    const price = parseFloat(product.price.replace("$", ""));
+    const discount = parseFloat(product.discount.replace("%", ""));
+    dispatch(
+      addItem({
+        id: product.id,
+        name: product.name,
+        price: price,
+        discount: discount,
+        quantity: 1,
+        image: product.image,
+      })
+    );
+  };
   const handleMouseDown = (e) => {
     setIsDragging(true);
     setStartX(e.pageX - carouselRef.current.offsetLeft);
     setScrollLeft(carouselRef.current.scrollLeft);
-    carouselRef.current.style.cursor = 'grabbing';
+    carouselRef.current.style.cursor = "grabbing";
   };
 
   const handleMouseLeave = () => {
     setIsDragging(false);
     if (carouselRef.current) {
-      carouselRef.current.style.cursor = 'grab';
+      carouselRef.current.style.cursor = "grab";
     }
   };
 
   const handleMouseUp = () => {
     setIsDragging(false);
     if (carouselRef.current) {
-      carouselRef.current.style.cursor = 'grab';
+      carouselRef.current.style.cursor = "grab";
     }
   };
 
@@ -82,9 +99,9 @@ const RecommendedProductsCarousel = () => {
   useEffect(() => {
     const carousel = carouselRef.current;
     if (carousel) {
-      carousel.addEventListener('scroll', checkScrollButtons);
+      carousel.addEventListener("scroll", checkScrollButtons);
       checkScrollButtons();
-      return () => carousel.removeEventListener('scroll', checkScrollButtons);
+      return () => carousel.removeEventListener("scroll", checkScrollButtons);
     }
   }, []);
 
@@ -101,7 +118,9 @@ const RecommendedProductsCarousel = () => {
       <div className="flex items-center gap-3 mb-6">
         <div className="flex items-center gap-2">
           <Sparkles className="w-6 h-6 text-purple-500" />
-          <h2 className="text-2xl font-bold text-white">{t("recommendedForYou")}</h2>
+          <h2 className="text-2xl font-bold text-white">
+            {t("recommendedForYou")}
+          </h2>
         </div>
         <div className="flex items-center gap-1 text-purple-400">
           <Sparkles className="w-4 h-4" />
@@ -111,16 +130,24 @@ const RecommendedProductsCarousel = () => {
 
       {/* Navigation Buttons */}
       <button
-        onClick={() => scrollCarousel('left')}
-        className={`absolute left-2 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm shadow-xl hover:bg-white hover:scale-110 transition-all duration-300 flex items-center justify-center ${!canScrollLeft ? 'opacity-40 cursor-not-allowed' : 'opacity-0 group-hover:opacity-100'}`}
+        onClick={() => scrollCarousel("left")}
+        className={`absolute left-2 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm shadow-xl hover:bg-white hover:scale-110 transition-all duration-300 flex items-center justify-center ${
+          !canScrollLeft
+            ? "opacity-40 cursor-not-allowed"
+            : "opacity-0 group-hover:opacity-100"
+        }`}
         disabled={!canScrollLeft}
       >
         <ChevronLeft className="w-6 h-6 text-gray-800" />
       </button>
-      
+
       <button
-        onClick={() => scrollCarousel('right')}
-        className={`absolute right-2 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm shadow-xl hover:bg-white hover:scale-110 transition-all duration-300 flex items-center justify-center ${!canScrollRight ? 'opacity-40 cursor-not-allowed' : 'opacity-0 group-hover:opacity-100'}`}
+        onClick={() => scrollCarousel("right")}
+        className={`absolute right-2 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm shadow-xl hover:bg-white hover:scale-110 transition-all duration-300 flex items-center justify-center ${
+          !canScrollRight
+            ? "opacity-40 cursor-not-allowed"
+            : "opacity-0 group-hover:opacity-100"
+        }`}
         disabled={!canScrollRight}
       >
         <ChevronRight className="w-6 h-6 text-gray-800" />
@@ -130,10 +157,10 @@ const RecommendedProductsCarousel = () => {
       <div
         ref={carouselRef}
         className="flex gap-8 overflow-x-auto scrollbar-hide cursor-grab select-none"
-        style={{ 
-          scrollbarWidth: 'none',
-          msOverflowStyle: 'none',
-          WebkitScrollbar: { display: 'none' }
+        style={{
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+          WebkitScrollbar: { display: "none" },
         }}
         onMouseDown={handleMouseDown}
         onMouseLeave={handleMouseLeave}
@@ -142,7 +169,6 @@ const RecommendedProductsCarousel = () => {
       >
         {groupedProducts.map((group, groupIndex) => (
           <div key={groupIndex} className="flex-shrink-0 w-full min-w-full">
-            
             {/* Top Row - 3 Large Featured Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
               {group.slice(0, 3).map((product, index) => (
@@ -182,13 +208,22 @@ const RecommendedProductsCarousel = () => {
                       className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-110"
                       draggable={false}
                     />
-                    
+
                     {/* Stock Badge */}
                     <div className="absolute bottom-4 right-4">
-                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${product.inStock ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}`}>
-                        <div className={`w-2 h-2 rounded-full mr-2 ${product.inStock ? 'bg-emerald-400' : 'bg-red-400'}`} />
+                      <span
+                        className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                          product.inStock
+                            ? "bg-emerald-100 text-emerald-800"
+                            : "bg-red-100 text-red-800"
+                        }`}
+                      >
+                        <div
+                          className={`w-2 h-2 rounded-full mr-2 ${
+                            product.inStock ? "bg-emerald-400" : "bg-red-400"
+                          }`}
+                        />
                         {product.inStock ? t("available") : t("outOfStock")}
-                        
                       </span>
                     </div>
 
@@ -255,9 +290,13 @@ const RecommendedProductsCarousel = () => {
                       <div className="flex items-center gap-1">
                         <div className="flex items-center">
                           {[...Array(5)].map((_, i) => (
-                            <Star 
-                              key={i} 
-                              className={`w-4 h-4 ${i < Math.floor(product.rating) ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} 
+                            <Star
+                              key={i}
+                              className={`w-4 h-4 ${
+                                i < Math.floor(product.rating)
+                                  ? "text-yellow-400 fill-current"
+                                  : "text-gray-300"
+                              }`}
                             />
                           ))}
                         </div>
@@ -266,22 +305,32 @@ const RecommendedProductsCarousel = () => {
                         </span>
                       </div>
                       <div className="text-right">
-                        <div className="text-xs text-gray-400">{t("playTime")}</div>
-                        <div className="text-sm font-semibold text-purple-400">{product.playTime}</div>
+                        <div className="text-xs text-gray-400">
+                          {t("playTime")}
+                        </div>
+                        <div className="text-sm font-semibold text-purple-400">
+                          {product.playTime}
+                        </div>
                       </div>
                     </div>
 
                     {/* Price */}
                     <div className="flex items-center gap-3 mb-4">
-                      <span className="text-3xl font-bold text-white">{product.price}</span>
-                      <span className="text-lg text-gray-400 line-through">{product.originalPrice}</span>
+                      <span className="text-3xl font-bold text-white">
+                        {product.price}
+                      </span>
+                      <span className="text-lg text-gray-400 line-through">
+                        {product.originalPrice}
+                      </span>
                     </div>
 
                     {/* Features */}
                     <div className="flex items-center justify-between text-sm text-gray-400 mb-6">
                       <div className="flex items-center gap-1">
                         <Shield className="w-4 h-4" />
-                        <span>{product.guarantee} {t("warranty")}</span>
+                        <span>
+                          {product.guarantee} {t("warranty")}
+                        </span>
                       </div>
                       <div className="flex items-center gap-1">
                         <Truck className="w-4 h-4" />
@@ -291,11 +340,12 @@ const RecommendedProductsCarousel = () => {
 
                     {/* Action Buttons */}
                     <div className="flex gap-3">
-                      <button 
+                      <button
+                        onClick={() => handleAddToCart(product)}
                         className={`flex-1 py-4 px-6 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-3 ${
-                          product.inStock 
-                            ? 'bg-gradient-to-r from-purple-600 to-purple-700 text-white hover:from-purple-700 hover:to-purple-800 hover:shadow-lg transform hover:scale-105' 
-                            : 'bg-gray-700 text-gray-400 cursor-not-allowed'
+                          product.inStock
+                            ? "bg-gradient-to-r from-purple-600 to-purple-700 text-white hover:from-purple-700 hover:to-purple-800 hover:shadow-lg transform hover:scale-105"
+                            : "bg-gray-700 text-gray-400 cursor-not-allowed"
                         }`}
                         disabled={!product.inStock}
                       >
@@ -326,7 +376,7 @@ const RecommendedProductsCarousel = () => {
                       className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-110"
                       draggable={false}
                     />
-                    
+
                     {/* Match Badge */}
                     <div className="absolute top-2 left-2">
                       <span className="bg-purple-600 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
@@ -338,7 +388,9 @@ const RecommendedProductsCarousel = () => {
                     {/* Hot/New Indicators */}
                     <div className="absolute top-2 right-2 flex flex-col gap-1">
                       {product.isHot && <span className="text-xs">🔥</span>}
-                      {product.isNewRelease && <span className="text-xs">✨</span>}
+                      {product.isNewRelease && (
+                        <span className="text-xs">✨</span>
+                      )}
                     </div>
 
                     {/* Discount Badge */}
@@ -350,7 +402,13 @@ const RecommendedProductsCarousel = () => {
 
                     {/* Stock Status */}
                     <div className="absolute bottom-2 left-2">
-                      <span className={`text-xs px-2 py-1 rounded ${product.inStock ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}>
+                      <span
+                        className={`text-xs px-2 py-1 rounded ${
+                          product.inStock
+                            ? "bg-green-500 text-white"
+                            : "bg-red-500 text-white"
+                        }`}
+                      >
                         {product.inStock ? t("available") : t("outOfStock")}
                       </span>
                     </div>
@@ -371,20 +429,28 @@ const RecommendedProductsCarousel = () => {
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-1">
                         <Star className="w-3 h-3 text-yellow-400 fill-current" />
-                        <span className="text-xs text-gray-400">{product.rating}</span>
+                        <span className="text-xs text-gray-400">
+                          {product.rating}
+                        </span>
                       </div>
                       {product.friendsPlaying > 0 && (
                         <div className="flex items-center gap-1 text-blue-400">
                           <Users className="w-3 h-3" />
-                          <span className="text-xs">{product.friendsPlaying}</span>
+                          <span className="text-xs">
+                            {product.friendsPlaying}
+                          </span>
                         </div>
                       )}
                     </div>
 
                     {/* Price */}
                     <div className="flex items-center gap-2 mb-3">
-                      <span className="text-lg font-bold text-white">{product.price}</span>
-                      <span className="text-xs text-gray-400 line-through">{product.originalPrice}</span>
+                      <span className="text-lg font-bold text-white">
+                        {product.price}
+                      </span>
+                      <span className="text-xs text-gray-400 line-through">
+                        {product.originalPrice}
+                      </span>
                     </div>
 
                     {/* Play Time */}
@@ -395,16 +461,17 @@ const RecommendedProductsCarousel = () => {
 
                     {/* Action Buttons */}
                     <div className="flex gap-2">
-                      <button 
+                      <button
+                        onClick={() => handleAddToCart(product)}
                         className={`flex-1 py-2 px-3 rounded-lg text-xs font-semibold transition-all duration-300 flex items-center justify-center gap-1 ${
-                          product.inStock 
-                            ? 'bg-gradient-to-r from-purple-600 to-purple-700 text-white hover:from-purple-700 hover:to-purple-800 transform hover:scale-105' 
-                            : 'bg-gray-700 text-gray-400 cursor-not-allowed'
+                          product.inStock
+                            ? "bg-gradient-to-r from-purple-600 to-purple-700 text-white hover:from-purple-700 hover:to-purple-800 transform hover:scale-105"
+                            : "bg-gray-700 text-gray-400 cursor-not-allowed"
                         }`}
                         disabled={!product.inStock}
                       >
                         <ShoppingCart className="w-3 h-3" />
-                        {product.inStock ?  t("addToCart") : t("outOfStock")}
+                        {product.inStock ? t("addToCart") : t("outOfStock")}
                       </button>
                       <button className="p-2 rounded-lg border border-purple-500 text-purple-400 hover:bg-purple-500 hover:text-white transition-all duration-300">
                         <Heart className="w-3 h-3" />

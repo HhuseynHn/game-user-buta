@@ -1,7 +1,9 @@
 import React from "react";
 import { Trash2, X } from "lucide-react";
+import { useTranslation } from "@/hooks/use-translations";
 
 const RemoveModal = ({ isOpen, onClose, onConfirm, itemName }) => {
+  const { t } = useTranslation();
   if (!isOpen) return null;
 
   return (
@@ -11,7 +13,7 @@ const RemoveModal = ({ isOpen, onClose, onConfirm, itemName }) => {
         <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-700">
           <h3 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2 m-0">
             <Trash2 className="w-5 h-5 text-red-500 " />
-            Remove Item?
+            {t("titleRemove")}
           </h3>
           <button
             onClick={onClose}
@@ -25,9 +27,10 @@ const RemoveModal = ({ isOpen, onClose, onConfirm, itemName }) => {
         {/* Modal Body */}
         <div className="p-2 sm:p-3">
           <p className="text-gray-300 text-sm sm:text-base leading-relaxed m-0">
-            Are you sure you want to remove{" "}
-            <span className="font-bold text-red-400 m-0">{itemName}</span> from your
-            basket? This action cannot be undone.
+            {t("messageRemove")}
+            <span className="font-bold text-red-400 m-0">{itemName}</span>{" "}
+            {t("from")}
+            {t("warning")}
           </p>
         </div>
 
@@ -37,13 +40,13 @@ const RemoveModal = ({ isOpen, onClose, onConfirm, itemName }) => {
             onClick={onClose}
             className="flex-1 px-2 py-1 bg-gray-800 text-sm sm:text-sm hover:bg-gray-700 text-white font-semibold rounded-lg transition-all border border-gray-700 hover:border-gray-600"
           >
-            No, Keep It
+            {t("keep")}
           </button>
           <button
             onClick={onConfirm}
             className="flex-1 px-4 py-3 bg-red-500 hover:bg-red- text-sm sm:text-sm 600 text-white font-semibold rounded-lg transition-all shadow-lg shadow-red-500/20 hover:shadow-red-500/40"
           >
-            Yes, Remove
+            {t("confirm")}
           </button>
         </div>
       </div>

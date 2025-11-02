@@ -15,6 +15,7 @@ import {
   SlidersHorizontal,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { allProductsMock } from "@/mock/product-filter-mock";
 
 const ProductFilter = () => {
   const [searchText, setSearchText] = useState("");
@@ -24,27 +25,11 @@ const ProductFilter = () => {
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [viewMode, setViewMode] = useState("grid");
-  const [isHydrated, setIsHydrated] = useState(false)
+  const [isHydrated, setIsHydrated] = useState(false);
   const itemsPerPage = 12;
   const { t } = useTranslation();
   // Mock data
-  const allProducts = Array.from({ length: 48 }, (_, i) => ({
-    id: i + 1,
-    name: `Game Title ${i + 1}`,
-    price: Math.floor(Math.random() * 80 + 10),
-    originalPrice: Math.floor(Math.random() * 100 + 50),
-    discount: Math.floor(Math.random() * 50 + 10),
-    rating: (Math.random() * 2 + 3).toFixed(1),
-    reviews: Math.floor(Math.random() * 1000 + 100),
-    image:
-      "https://pic.rutubelist.ru/video/2025-03-27/21/24/2124809b3643156a7871db7409722bde.jpg",
-    mode: ["online", "offline", "both"][Math.floor(Math.random() * 3)],
-    superCategory: ["Games", "Software", "DLC"][Math.floor(Math.random() * 3)],
-    subCategory: ["Action", "Adventure", "RPG", "Strategy", "Sports", "Racing"][
-      Math.floor(Math.random() * 6)
-    ],
-    inStock: Math.random() > 0.2,
-  }));
+  const allProducts = allProductsMock;
 
   const filterOptions = {
     modes: ["online", "offline", "both"],
@@ -104,8 +89,6 @@ const ProductFilter = () => {
     selectedSubCategory,
   ]);
 
-
-
   // Pagination
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -124,16 +107,24 @@ const ProductFilter = () => {
   };
 
   useEffect(() => {
-    setIsHydrated(true)
-  }, [])
+    setIsHydrated(true);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-950 text-white">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold mb-1 sm:mb-2">  {isHydrated ? t("browseGames") : "Browser Games"} </h1>
-          <p className="text-[12px] sm:text-[16px] text-gray-400"> {isHydrated ? t("findYourNextFavoriteGame") : "Find your next favorite game"}</p> 
+          <h1 className="text-2xl md:text-3xl font-bold mb-1 sm:mb-2">
+            {" "}
+            {isHydrated ? t("browseGames") : "Browser Games"}{" "}
+          </h1>
+          <p className="text-[12px] sm:text-[16px] text-gray-400">
+            {" "}
+            {isHydrated
+              ? t("findYourNextFavoriteGame")
+              : "Find your next favorite game"}
+          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -147,9 +138,9 @@ const ProductFilter = () => {
                 </h2>
                 <button
                   onClick={clearFilters}
-                  className="text-white-500 hover:text-red-400 text-sm font-medium transition-colors">
-                    {isHydrated ? t("clearAll") : "Clear All"}
-                  
+                  className="text-white-500 hover:text-red-400 text-sm font-medium transition-colors"
+                >
+                  {isHydrated ? t("clearAll") : "Clear All"}
                 </button>
               </div>
 
@@ -173,11 +164,14 @@ const ProductFilter = () => {
 
                 {/* Mode Filter */}
                 <div>
-                  <label className="block text-sm font-medium mb-3">{t("mode")}</label>
+                  <label className="block text-sm font-medium mb-3">
+                    {t("mode")}
+                  </label>
                   <select
                     value={selectedMode}
                     onChange={(e) => setSelectedMode(e.target.value)}
-                    className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                    className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                  >
                     <option value="">{t("allModes")}</option>
                     {filterOptions.modes.map((mode) => (
                       <option key={mode} value={mode}>
@@ -229,7 +223,8 @@ const ProductFilter = () => {
                   <select
                     value={selectedSuperCategory}
                     onChange={(e) => setSelectedSuperCategory(e.target.value)}
-                    className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                    className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                  >
                     <option value="">{t("allCategories")}</option>
                     {filterOptions.superCategories.map((category) => (
                       <option key={category} value={category}>
@@ -247,7 +242,8 @@ const ProductFilter = () => {
                   <select
                     value={selectedSubCategory}
                     onChange={(e) => setSelectedSubCategory(e.target.value)}
-                    className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                    className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                  >
                     <option value="">{t("allSubCategories")}</option>
                     {filterOptions.subCategories.map((category) => (
                       <option key={category} value={category}>
@@ -273,10 +269,12 @@ const ProductFilter = () => {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setViewMode("grid")}
-                  className={`p-2 rounded-lg transition-colors ${viewMode === "grid"
-                    ? "bg-red-600 text-white"
-                    : "bg-gray-800 text-gray-400 hover:text-white"
-                    }`}>
+                  className={`p-2 rounded-lg transition-colors ${
+                    viewMode === "grid"
+                      ? "bg-red-600 text-white"
+                      : "bg-gray-800 text-gray-400 hover:text-white"
+                  }`}
+                >
                   <Grid className="w-4 h-4" />
                 </button>
               </div>
@@ -285,19 +283,25 @@ const ProductFilter = () => {
             {/* Products Grid */}
             {paginatedProducts.length > 0 ? (
               <div
-                className={`grid gap-6 mb-8 ${viewMode === "grid"
-                  ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-                  : "grid-cols-1"
-                  }`}>
+                className={`grid gap-6 mb-8 ${
+                  viewMode === "grid"
+                    ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+                    : "grid-cols-1"
+                }`}
+              >
                 {paginatedProducts.map((product) => (
                   <div
                     key={product.id}
-                    className={`bg-gray-900 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden group border border-gray-700 transform hover:-translate-y-2 ${viewMode === "list" ? "flex" : ""
-                      }`}>
+                    className={`bg-gray-900 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden group border border-gray-700 transform hover:-translate-y-2 ${
+                      viewMode === "list" ? "flex" : ""
+                    }`}
+                  >
                     {/* Image */}
                     <div
-                      className={`relative overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 ${viewMode === "list" ? "w-48 h-32" : "h-48"
-                        }`}>
+                      className={`relative overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 ${
+                        viewMode === "list" ? "w-48 h-32" : "h-48"
+                      }`}
+                    >
                       <Image
                         src={product.image}
                         alt={product.name}
@@ -308,13 +312,16 @@ const ProductFilter = () => {
                       {/* Stock Badge */}
                       <div className="absolute top-3 left-3">
                         <span
-                          className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${product.inStock
-                            ? "bg-emerald-100 text-emerald-800"
-                            : "bg-red-100 text-red-800"
-                            }`}>
+                          className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                            product.inStock
+                              ? "bg-emerald-100 text-emerald-800"
+                              : "bg-red-100 text-red-800"
+                          }`}
+                        >
                           <div
-                            className={`w-1.5 h-1.5 rounded-full mr-1 ${product.inStock ? "bg-emerald-400" : "bg-red-400"
-                              }`}
+                            className={`w-1.5 h-1.5 rounded-full mr-1 ${
+                              product.inStock ? "bg-emerald-400" : "bg-red-400"
+                            }`}
                           />
                           {product.inStock ? t("inStock") : t("outOfStock")}
                         </span>
@@ -337,7 +344,8 @@ const ProductFilter = () => {
 
                     {/* Content */}
                     <div
-                      className={`p-4 ${viewMode === "list" ? "flex-1" : ""}`}>
+                      className={`p-4 ${viewMode === "list" ? "flex-1" : ""}`}
+                    >
                       {/* Category */}
                       <div className="flex items-center gap-2 mb-2">
                         <span className="text-xs px-2 py-1 bg-red-600 text-white rounded-full">
@@ -356,10 +364,11 @@ const ProductFilter = () => {
                           {[...Array(5)].map((_, i) => (
                             <Star
                               key={i}
-                              className={`w-4 h-4 ${i < Math.floor(product.rating)
-                                ? "text-yellow-400 fill-current"
-                                : "text-gray-300"
-                                }`}
+                              className={`w-4 h-4 ${
+                                i < Math.floor(product.rating)
+                                  ? "text-yellow-400 fill-current"
+                                  : "text-gray-300"
+                              }`}
                             />
                           ))}
                         </div>
@@ -381,15 +390,16 @@ const ProductFilter = () => {
                       {/* Action Buttons */}
                       <div className="flex gap-2">
                         <button
-                          className={`flex-1 py-2 px-3 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 ${product.inStock
-                            ? "bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 transform hover:scale-105"
-                            : "bg-gray-700 text-gray-400 cursor-not-allowed"
-                            }`}
-                          disabled={!product.inStock}>
+                          className={`flex-1 py-2 px-3 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 ${
+                            product.inStock
+                              ? "bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 transform hover:scale-105"
+                              : "bg-gray-700 text-gray-400 cursor-not-allowed"
+                          }`}
+                          disabled={!product.inStock}
+                        >
                           <ShoppingCart className="hidden sm:block w-4 h-4" />
                           {product.inStock ? t("addToCart") : t("outOfStock")}
                         </button>
-
                       </div>
                     </div>
                   </div>
@@ -411,7 +421,8 @@ const ProductFilter = () => {
                 <button
                   onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                   disabled={currentPage === 1}
-                  className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 disabled:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg transition-colors">
+                  className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 disabled:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg transition-colors"
+                >
                   <ChevronLeft className="w-4 h-4" />
                   {t("previous")}
                 </button>
@@ -427,7 +438,8 @@ const ProductFilter = () => {
                     setCurrentPage(Math.min(totalPages, currentPage + 1))
                   }
                   disabled={currentPage === totalPages}
-                  className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 disabled:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg transition-colors">
+                  className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 disabled:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg transition-colors"
+                >
                   {t("next")}
                   <ChevronRight className="w-4 h-4" />
                 </button>

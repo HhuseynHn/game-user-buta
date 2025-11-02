@@ -1,4 +1,4 @@
-export const bestSellerProducts = Array.from({ length: 15 }, (_, i) => ({
+export const bestSellerProductData = Array.from({ length: 14 }, (_, i) => ({
   id: i + 1,
   name: `Best Seller Game ${i + 1}`,
   price: `$${(Math.random() * 80 + 20).toFixed(2)}`,
@@ -17,4 +17,3 @@ export const bestSellerProducts = Array.from({ length: 15 }, (_, i) => ({
   rank: i + 1,
   isTopSeller: i < 3,
 }));
-

@@ -9,15 +9,14 @@ import {
   updateQuantity,
 } from "@/core/config/redux/slices/basket-slice";
 import RemoveModal from "./remove-modal";
+import { useTranslation } from "@/hooks/use-translations";
 
 const BacketComponent = () => {
   const dispatch = useDispatch();
   const basketItems = useSelector(selectBasketItems);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [removeId, setRemoveId] = useState(null);
-
-// const translate=useT
-
+  const { t } = useTranslation();
 
   const onUpdateQuantity = (id, change) => {
     dispatch(updateQuantity({ id, change }));
@@ -52,11 +51,11 @@ const BacketComponent = () => {
           <div className="mb-4 sm:mb-6 md:mb-8">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1 sm:mb-2 flex items-center gap-2 sm:gap-3">
               <ShoppingCart className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10" />
-              Shopping Basket
+              {t("titleBasket")}
             </h1>
             <p className="text-xs sm:text-sm md:text-base text-gray-400 m-0">
               {basketItems.length} {basketItems.length === 1 ? "item" : "items"}{" "}
-              in your basket
+              {t("itemsInBasket")}
             </p>
           </div>
 
@@ -67,11 +66,9 @@ const BacketComponent = () => {
                 <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-700 rounded-lg sm:rounded-xl p-8 sm:p-12 text-center">
                   <ShoppingCart className="w-16 h-16 sm:w-20 sm:h-20 text-gray-600 mx-auto mb-4" />
                   <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
-                    Your basket is empty
+                    {t("empty")}
                   </h3>
-                  <p className="text-gray-400 m-0">
-                    Add some games to get started!
-                  </p>
+                  <p className="text-gray-400 m-0">{t("emptyMessage")}</p>
                 </div>
               ) : (
                 basketItems.map((item) => (
@@ -82,7 +79,7 @@ const BacketComponent = () => {
                     <div className="flex flex-row gap-3 items-center">
                       {/* Item Image */}
                       <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-red-500 to-pink-500 rounded-lg flex items-center justify-center text-2xl sm:text-3xl flex-shrink-0">
-                        {item.image}
+                        <img src={item.image} alt={item.name} className="w-full h-full object-cover m-0" />
                       </div>
 
                       {/* Item Details */}
@@ -137,7 +134,7 @@ const BacketComponent = () => {
 
                           <div className="text-center sm:text-right">
                             <p className="text-xs text-gray-400 m-0">
-                              Item Total
+                              {t("itemTotal")}
                             </p>
                             <p className="text-xl sm:text-2xl font-bold text-red-500 m-0">
                               ${calculateItemTotal(item).toFixed(2)}
@@ -155,7 +152,6 @@ const BacketComponent = () => {
               isOpen={isModalOpen}
               onClose={handleCloseModal}
               onConfirm={handleConfirmRemove}
-              // itemName={item?.id }
             />
 
             {/* Order Summary */}

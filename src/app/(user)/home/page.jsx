@@ -30,10 +30,12 @@ export default function Home() {
           <section>
             <CategoryPopular/>
           </section>
+          <RecommendedProductsCarousel/>
 
           <section>
             <ProductLateSet/>
           </section>
+          
 
           <section >
             <ProductBest/>

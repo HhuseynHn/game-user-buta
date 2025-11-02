@@ -23,6 +23,9 @@ import {
   User,
 } from "lucide-react";
 import { useTranslation } from "@/hooks/use-translations";
+import { productDetailMock } from "@/mock/product-detail-mock";
+import { useDispatch } from "react-redux";
+import { addItem } from "@/core/config/redux/slices/basket-slice";
 // import { useTranslation } from "react-i18next";
 
 const ProductDetail = () => {
@@ -47,26 +50,23 @@ const ProductDetail = () => {
     },
   ]);
   const { t } = useTranslation();
-  const product = {
-    name: "Cyberpunk 2077: Ultimate Edition",
-    inStock: true,
-    guarantee: "2 years",
-    guaranteeContent:
-      "Full warranty coverage including technical support and free updates",
-    description:
-      "Experience the ultimate cyberpunk adventure in Night City. An open-world, action-adventure story set in a world obsessed with power, glamour and body modification. Play as V, a mercenary outlaw going after a one-of-a-kind implant that is the key to immortality. Customize your character's cyberware, skillset and playstyle.",
-    price: 59.99,
-    discount: 25,
-    type: "Digital Account",
-    mode: "online",
-    superCategory: "Games",
-    subCategory: "Action RPG",
-    image:
-      "https://pic.rutubelist.ru/video/2025-03-27/21/24/2124809b3643156a7871db7409722bde.jpg",
-    video:
-      "https://pic.rutubelist.ru/video/2025-03-27/21/24/2124809b3643156a7871db7409722bde.jpg",
-    rating: 4.6,
-    reviewCount: 1247,
+  const dispatch = useDispatch();
+  const product = productDetailMock;
+
+  const handleAddToCart = (product) => {
+    // 🟣 Convert price and discount to numbers if needed
+    const price = parseFloat(String(product.price).replace("$", ""));
+    const discount = parseFloat(String(product.discount).replace("%", ""));
+    dispatch(
+      addItem({
+        id: product.id,
+        name: product.name,
+        price: price,
+        discount: discount,
+        quantity: 1,
+        image: product.image,
+      })
+    );
   };
 
   const discountedPrice = (
@@ -139,7 +139,9 @@ const ProductDetail = () => {
                   {product.superCategory}
                 </span>
                 <span className="text-gray-600">•</span>
-                <span className="text-gray-400 text-[10px] sm:text-sm">{product.type}</span>
+                <span className="text-gray-400 text-[10px] sm:text-sm">
+                  {product.type}
+                </span>
               </div>
 
               <h1 className="text-2xl md:text-4xl font-bold mb-2 sm:mb-4 text-white">
@@ -151,14 +153,17 @@ const ProductDetail = () => {
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      className={`w-3 sm:w-4 h-3 sm:h-4 ${i < Math.floor(product.rating)
-                        ? "text-yellow-400 fill-current"
-                        : "text-gray-600"
-                        }`}
+                      className={`w-3 sm:w-4 h-3 sm:h-4 ${
+                        i < Math.floor(product.rating)
+                          ? "text-yellow-400 fill-current"
+                          : "text-gray-600"
+                      }`}
                     />
                   ))}
                 </div>
-                <span className="text-[10px] sm:text-[15px] text-white font-medium">{product.rating}</span>
+                <span className="text-[10px] sm:text-[15px] text-white font-medium">
+                  {product.rating}
+                </span>
               </div>
             </div>
 
@@ -179,17 +184,23 @@ const ProductDetail = () => {
               {/* Stock Status */}
               <div className="flex items-center gap-3 mb-2 sm:mb-4 mt-4 sm:mt-6">
                 <div
-                  className={`w-2 sm:w-3 h-2 sm:h-3 rounded-full ${product.inStock
-                    ? "bg-green-400 animate-pulse"
-                    : "bg-red-400"
-                    }`}></div>
+                  className={`w-2 sm:w-3 h-2 sm:h-3 rounded-full ${
+                    product.inStock
+                      ? "bg-green-400 animate-pulse"
+                      : "bg-red-400"
+                  }`}
+                ></div>
                 <span
-                  className={`text-[11px] sm:text-[15px] ${product.inStock ? "text-green-400" : "text-red-400"
-                    }`}>
+                  className={`text-[11px] sm:text-[15px] ${
+                    product.inStock ? "text-green-400" : "text-red-400"
+                  }`}
+                >
                   {product.inStock ? t("inStock") : t("outOfStock")}
                 </span>
                 {product.inStock && (
-                  <span className="text-gray-400 text-[10px] sm:text-[14px]">• {t("instantDelivery")}</span>
+                  <span className="text-gray-400 text-[10px] sm:text-[14px]">
+                    • {t("instantDelivery")}
+                  </span>
                 )}
               </div>
 
@@ -198,7 +209,8 @@ const ProductDetail = () => {
                 <div className="flex items-center jusfity-center  rounded-lg">
                   <button
                     onClick={() => setCount(Math.max(1, count - 1))}
-                    className="p-2 sm:p-3 bg-red-600 hover:bg-gray-700 transition-colors rounded-full">
+                    className="p-2 sm:p-3 bg-red-600 hover:bg-gray-700 transition-colors rounded-full"
+                  >
                     <Minus className="w-4 h-4" />
                   </button>
                   <div className="px-4 py-3 text-[15px] sm:text-[18px] font-medium">
@@ -206,7 +218,8 @@ const ProductDetail = () => {
                   </div>
                   <button
                     onClick={() => setCount(count + 1)}
-                    className="p-2 sm:p-3 bg-red-600 hover:bg-gray-700 transition-colors rounded-full">
+                    className="p-2 sm:p-3 bg-red-600 hover:bg-gray-700 transition-colors rounded-full"
+                  >
                     <Plus className="w-4 h-4" />
                   </button>
                 </div>
@@ -215,11 +228,14 @@ const ProductDetail = () => {
               {/* Action Buttons */}
               <div className="flex gap-3 mb-4">
                 <button
-                  className={`flex-1 py-2 sm:py-4 px-6 rounded-xl font-bold text-[10px] sm:text-lg transition-all duration-300 flex items-center justify-center gap-3 transform hover:scale-105 ${product.inStock
-                    ? "bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white shadow-lg hover:shadow-2xl"
-                    : "bg-gray-700 text-gray-400 cursor-not-allowed"
-                    }`}
-                  disabled={!product.inStock}>
+                  onClick={() => handleAddToCart(product)}
+                  className={`flex-1 py-2 sm:py-4 px-6 rounded-xl font-bold text-[10px] sm:text-lg transition-all duration-300 flex items-center justify-center gap-3 transform hover:scale-105 ${
+                    product.inStock
+                      ? "bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white shadow-lg hover:shadow-2xl"
+                      : "bg-gray-700 text-gray-400 cursor-not-allowed"
+                  }`}
+                  disabled={!product.inStock}
+                >
                   <ShoppingCart className="hidden sm:block w-5 h-5" />
                   {t("addToCart")}
                 </button>
@@ -229,10 +245,13 @@ const ProductDetail = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-5 border-t border-gray-700">
                 <div className="flex items-center gap-2 text-[12px] sm:text-[20px]">
                   <Tag className="w-4 sm:w-5 w-4 sm:h-5 text-blue-400" />
-                  <div className="text-gray-400 text-[12px] sm:text-[18px]">{t("type")}:</div>
-                  <div className="text-white text-[11px] sm:text-[16px]">{product.type}</div>
+                  <div className="text-gray-400 text-[12px] sm:text-[18px]">
+                    {t("type")}:
+                  </div>
+                  <div className="text-white text-[11px] sm:text-[16px]">
+                    {product.type}
+                  </div>
                 </div>
-
               </div>
             </div>
 
@@ -253,7 +272,9 @@ const ProductDetail = () => {
 
         {/* Description Section */}
         <div className="bg-gray-900 rounded-2xl p-8 border border-gray-800 mb-12">
-          <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-6">{t("Description")}</h2>
+          <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-6">
+            {t("Description")}
+          </h2>
           <p className="text-gray-300 leading-relaxed text-[12px] sm:text-lg">
             {product.description}
           </p>
@@ -261,7 +282,9 @@ const ProductDetail = () => {
 
         {/* Video Section */}
         <div className="mb-12">
-          <h2 className="text-xl sm:text-2xl font-bold mb-6">{t("gameTrailer")}</h2>
+          <h2 className="text-xl sm:text-2xl font-bold mb-6">
+            {t("gameTrailer")}
+          </h2>
           <div className="relative aspect-video bg-gray-900 rounded-2xl overflow-hidden group border border-gray-800 h-[500px] w-full">
             <Image
               src={product.video}
@@ -304,7 +327,8 @@ const ProductDetail = () => {
               />
               <button
                 type="submit"
-                className="absolute right-3 top-1/2 -translate-y-1/2 bg-gray-900 hover:bg-gray-800 text-white p-1 sm:p-2 rounded-xl transition-colors flex items-center justify-center">
+                className="absolute right-3 top-1/2 -translate-y-1/2 bg-gray-900 hover:bg-gray-800 text-white p-1 sm:p-2 rounded-xl transition-colors flex items-center justify-center"
+              >
                 <Send className="h-4 sm:w-5 h-4 sm:h-5" />
               </button>
             </div>
@@ -315,14 +339,17 @@ const ProductDetail = () => {
             {comments.map((comment) => (
               <div
                 key={comment.id}
-                className="bg-gray-800 rounded-xl p-3 md:p-5 border border-gray-700">
+                className="bg-gray-800 rounded-xl p-3 md:p-5 border border-gray-700"
+              >
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-8 h-8 md:w-11 md:h-11 bg-gradient-to-r from-red-600 to-red-700 rounded-full flex items-center justify-center">
                     <User className="w-4 h-4 md:w-5 md:h-5 text-white" />
                   </div>
                   <div className="flex-1">
                     <div className="">
-                      <div className="font-medium text-white">{t("anonymous")}</div>
+                      <div className="font-medium text-white">
+                        {t("anonymous")}
+                      </div>
                       <div className="flex items-center gap-1 text-gray-400 text-sm">
                         <Calendar className="w-3 sm:w-4 sm:h-4 h-3" />
                         <div className="text-[10px] sm:text-[13px]">
@@ -332,16 +359,16 @@ const ProductDetail = () => {
                     </div>
                   </div>
                 </div>
-                <p className="pl-3 pt-1 text-gray-300 leading-relaxed text-[11px] sm:text-[14px]">{comment.text}</p>
+                <p className="pl-3 pt-1 text-gray-300 leading-relaxed text-[11px] sm:text-[14px]">
+                  {comment.text}
+                </p>
               </div>
             ))}
 
             {comments.length === 0 && (
               <div className="text-center py-12">
                 <MessageSquare className="w-12 h-12 text-gray-600 mx-auto mb-4" />
-                <p className="text-gray-400">
-                  {t("noCommentsYet")}
-                </p>
+                <p className="text-gray-400">{t("noCommentsYet")}</p>
               </div>
             )}
           </div>
