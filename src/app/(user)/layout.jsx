@@ -6,7 +6,7 @@ import Footer from "@/components/layout/footer";
 import { LanguageProvider } from "@/core/provider/language-provider";
 import { Provider } from "react-redux";
 import { store } from "@/core/config/redux/store/store";
-
+import { Toaster } from "react-hot-toast";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -25,6 +25,7 @@ export default function RootLayout({ children }) {
       >
         <LanguageProvider>
           <Provider store={store}>
+            <Toaster position="top-right" />
             <Header />
             {children}
             <Footer />

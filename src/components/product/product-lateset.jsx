@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import { generatedMock } from "@/mock/product-latest";
 import { useDispatch } from "react-redux";
 import { addItem } from "@/core/config/redux/slices/basket-slice";
-
+import toast from "react-hot-toast";
 const ProductLatestSet = () => {
   const [productCards, setProductCards] = useState([]);
 
@@ -22,8 +22,8 @@ const ProductLatestSet = () => {
     // 🟣 Convert price and discount to numbers if needed
     const price = parseFloat(product.price.replace("$", ""));
     const discount = parseFloat(product.discount.replace("%", ""));
-
-    // 🟢 Dispatch addItem action
+    toast.success(`${product.name} added to basket!`);
+    
     dispatch(
       addItem({
         id: product.id,

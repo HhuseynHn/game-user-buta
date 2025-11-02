@@ -18,7 +18,7 @@ import { useTranslation } from "@/hooks/use-translations";
 import { recommendedProductsMock } from "@/mock/product-recomended-mock";
 import { useDispatch } from "react-redux";
 import { addItem } from "@/core/config/redux/slices/basket-slice";
-
+import toast from "react-hot-toast";
 const recommendedProducts = recommendedProductsMock;
 const RecommendedProductsCarousel = () => {
   const carouselRef = useRef(null);
@@ -56,6 +56,7 @@ const RecommendedProductsCarousel = () => {
     // 🟣 Convert price and discount to numbers if needed
     const price = parseFloat(product.price.replace("$", ""));
     const discount = parseFloat(product.discount.replace("%", ""));
+    toast.success(`${product.name} added to basket!`);
     dispatch(
       addItem({
         id: product.id,

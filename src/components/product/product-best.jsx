@@ -16,7 +16,7 @@ import { useTranslation } from "@/hooks/use-translations";
 import { useDispatch } from "react-redux";
 import { addItem } from "@/core/config/redux/slices/basket-slice";
 import { bestSellerProductData } from "@/mock/product-best-mock";
-
+import toast from "react-hot-toast";
 const bestSellerProducts = bestSellerProductData;
 
 const BestSellerCarousel = () => {
@@ -37,8 +37,8 @@ const BestSellerCarousel = () => {
     // 🟣 Convert price and discount to numbers if needed
     const price = parseFloat(product.price.replace("$", ""));
     const discount = parseFloat(product.discount.replace("%", ""));
-
-    // 🟢 Dispatch addItem action
+    toast.success(`${product.name} added to basket!`);
+    
     dispatch(
       addItem({
         id: product.id,

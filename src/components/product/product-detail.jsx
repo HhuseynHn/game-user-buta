@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import {
   ShoppingCart,
   Star,
@@ -57,6 +58,7 @@ const ProductDetail = () => {
     // 🟣 Convert price and discount to numbers if needed
     const price = parseFloat(String(product.price).replace("$", ""));
     const discount = parseFloat(String(product.discount).replace("%", ""));
+    toast.success(`${product.name} added to basket!`);
     dispatch(
       addItem({
         id: product.id,
